@@ -54,6 +54,7 @@ export interface ProcessingOptions {
     outletLarge: number;
     ventilator: number;
   };
+  hikiteCount: number; // Finger Pull
 }
 
 export interface CalculationResult {

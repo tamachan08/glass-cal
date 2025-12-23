@@ -15,7 +15,8 @@ const testCases = [
                 rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                 holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                 cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 0
             } as ProcessingOptions
         },
         expected: 770
@@ -71,7 +72,8 @@ const testCases = [
                 rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                 holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                 cornerCutProcessing: { c30: 2, c50: 0, c100: 0, c200: 0 }, // 180 * 2 = 360
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 0
             } as ProcessingOptions
         },
         // Edge Fee: 2.0m * 800 = 1600
@@ -122,6 +124,32 @@ const testCases = [
         // Processing: 4.0m * 550 = 2200
         // Total: 7200
         expected: 7200
+    },
+    {
+        name: 'Test Case 7: Hikite Processing Tiers',
+        input: {
+            dimensions: { width: 1000, height: 1801, thickness: 5 } as GlassDimensions,
+            unitPrice: 0,
+            edge: {
+                type: 'flat_polish',
+                finish: 'migaki',
+                processedSides: { top: false, bottom: false, left: false, right: false }
+            } as EdgeProcessing,
+            options: {
+                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 2
+            } as ProcessingOptions
+        },
+        // Perimeter: 0 (No sides)
+        // Edge Fee: 0
+        // Option Fee needs 1.5x multiplier for 8mm? No, logic uses thickness. Here it is 5mm. Multiplier 1.0.
+        // Long side: 1801mm -> Price 1000 yen.
+        // Fee: 2 * 1000 = 2000 yen.
+        // Total: 2000 yen.
+        expected: 2000
     }
 ];
 

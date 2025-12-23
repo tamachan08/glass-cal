@@ -74,6 +74,26 @@ export const calculateOptionFee = (
     baseRunningTotal += options.specialProcessing.outletLarge * OPTION_PRICES.specialProcessing.outletLarge;
     baseRunningTotal += options.specialProcessing.ventilator * OPTION_PRICES.specialProcessing.ventilator;
 
+    // Hikite Processing (Finger Pull)
+    // Pricing based on long side dimension
+    // ~1200mm: 400 JPY
+    // ~1800mm: 600 JPY
+    // 1801mm+: 1000 JPY
+    if (options.hikiteCount > 0) {
+        const longSide = Math.max(dimensions.width, dimensions.height);
+        let hikiteUnitPrice = 0;
+
+        if (longSide <= 1200) {
+            hikiteUnitPrice = 400;
+        } else if (longSide <= 1800) {
+            hikiteUnitPrice = 600;
+        } else {
+            hikiteUnitPrice = 1000;
+        }
+
+        baseRunningTotal += options.hikiteCount * hikiteUnitPrice;
+    }
+
     return Math.ceil(baseRunningTotal * multiplier);
 };
 
