@@ -150,6 +150,67 @@ const testCases = [
         // Fee: 2 * 1000 = 2000 yen.
         // Total: 2000 yen.
         expected: 2000
+    },
+    {
+        name: 'Test Case 8: Notch (Kirikaki) Base',
+        input: {
+            dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
+            unitPrice: 0,
+            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+            options: {
+                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 0,
+                complexProcessing: { type: 'notch', totalLength: 200, count: 1 }
+            } as ProcessingOptions
+        },
+        // Notch <= 200mm -> 1000 yen.
+        // Thickness 5mm -> Multiplier 1.0.
+        expected: 1000
+    },
+    {
+        name: 'Test Case 9: Eguri Increment',
+        input: {
+            dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
+            unitPrice: 0,
+            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+            options: {
+                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 0,
+                complexProcessing: { type: 'eguri', totalLength: 450, count: 1 }
+            } as ProcessingOptions
+        },
+        // Eguri Base 300mm = 1500 yen.
+        // Excess 450 - 300 = 150mm.
+        // Increments: ceil(150/100) = 2.
+        // Add: 2 * 400 = 800 yen.
+        // Total: 1500 + 800 = 2300 yen.
+        expected: 2300
+    },
+    {
+        name: 'Test Case 10: Square Hole + 8mm Multiplier',
+        input: {
+            dimensions: { width: 500, height: 500, thickness: 8 } as GlassDimensions,
+            unitPrice: 0,
+            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+            options: {
+                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                hikiteCount: 0,
+                complexProcessing: { type: 'square_hole', totalLength: 400, count: 1 }
+            } as ProcessingOptions
+        },
+        // Square Hole <= 400mm -> 2500 yen.
+        // Thickness 8mm -> Multiplier 1.5.
+        // Total: 2500 * 1.5 = 3750 yen.
+        expected: 3750
     }
 ];
 

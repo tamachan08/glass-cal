@@ -25,7 +25,8 @@ function App() {
     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
     specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-    hikiteCount: 0
+    hikiteCount: 0,
+    complexProcessing: { type: 'notch', totalLength: 0, count: 0 }
   });
 
   const result = useMemo(() => {

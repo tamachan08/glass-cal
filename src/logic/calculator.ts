@@ -94,6 +94,41 @@ export const calculateOptionFee = (
         baseRunningTotal += options.hikiteCount * hikiteUnitPrice;
     }
 
+    // Complex Processing (Notch/Eguri/Square Hole)
+    if (options.complexProcessing && options.complexProcessing.count > 0 && options.complexProcessing.totalLength > 0) {
+        const { type, totalLength, count } = options.complexProcessing;
+        let unitPrice = 0;
+
+        if (type === 'notch') { // 切り欠き
+            // Base: 1000 yen <= 200mm
+            // Add: 300 yen per 100mm over 200mm
+            if (totalLength <= 200) {
+                unitPrice = 1000;
+            } else {
+                unitPrice = 1000 + Math.ceil((totalLength - 200) / 100) * 300;
+            }
+        } else if (type === 'eguri') { // エグリ
+            // Base: 1500 yen <= 300mm
+            // Add: 400 yen per 100mm over 300mm
+            if (totalLength <= 300) {
+                unitPrice = 1500;
+            } else {
+                unitPrice = 1500 + Math.ceil((totalLength - 300) / 100) * 400;
+            }
+        } else if (type === 'square_hole') { // 角穴
+            // Base: 2500 yen <= 400mm
+            // Add: 600 yen per 100mm over 400mm
+            if (totalLength <= 400) {
+                unitPrice = 2500;
+            } else {
+                unitPrice = 2500 + Math.ceil((totalLength - 400) / 100) * 600;
+            }
+        }
+
+        // This is subject to thickness multiplier (same as other options)
+        baseRunningTotal += unitPrice * count;
+    }
+
     return Math.ceil(baseRunningTotal * multiplier);
 };
 

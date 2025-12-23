@@ -6,6 +6,8 @@ export type ChamferWidth = '12' | '18' | '24'; // ~12mm, ~18mm, ~24mm
 
 export type OptionType = 'R_processing' | 'hole_processing' | 'special_processing';
 
+export type ComplexProcessingType = 'notch' | 'eguri' | 'square_hole';
+
 export interface GlassDimensions {
   width: number; // mm
   height: number; // mm
@@ -55,6 +57,11 @@ export interface ProcessingOptions {
     ventilator: number;
   };
   hikiteCount: number; // Finger Pull
+  complexProcessing?: {
+    type: ComplexProcessingType;
+    totalLength: number; // mm
+    count: number;
+  };
 }
 
 export interface CalculationResult {
