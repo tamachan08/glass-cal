@@ -155,6 +155,63 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                         />
                     </div>
                 </div>
+
+                {/* Complex Processing */}
+                <div>
+                    <h3>変形加工</h3>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>加工種別</label>
+                        <select
+                            style={{ width: '100%', padding: '0.5rem', borderRadius: '4px' }}
+                            value={options.complexProcessing?.type || 'notch'}
+                            onChange={e => onChange({
+                                ...options,
+                                complexProcessing: {
+                                    ...(options.complexProcessing || { totalLength: 0, count: 0 }),
+                                    type: e.target.value as any
+                                }
+                            })}
+                        >
+                            <option value="notch">切り欠き (2辺計)</option>
+                            <option value="eguri">エグリ (3辺計)</option>
+                            <option value="square_hole">角穴 (4辺計)</option>
+                        </select>
+                    </div>
+                    <div className="option-item">
+                        <label>辺合計サイズ (mm)</label>
+                        <input
+                            type="number"
+                            min="0"
+                            placeholder="例: 200"
+                            value={options.complexProcessing?.totalLength || ''}
+                            onChange={e => onChange({
+                                ...options,
+                                complexProcessing: {
+                                    ...(options.complexProcessing || { type: 'notch', count: 0 }),
+                                    totalLength: Number(e.target.value)
+                                }
+                            })}
+                        />
+                    </div>
+                    <div className="option-item">
+                        <label>個数</label>
+                        <input
+                            type="number"
+                            min="0"
+                            value={options.complexProcessing?.count || ''}
+                            onChange={e => onChange({
+                                ...options,
+                                complexProcessing: {
+                                    ...(options.complexProcessing || { type: 'notch', totalLength: 0 }),
+                                    count: Number(e.target.value)
+                                }
+                            })}
+                        />
+                    </div>
+                    {options.complexProcessing?.type === 'notch' && <small style={{ display: 'block', color: '#ccc', marginTop: '0.5rem' }}>※切り欠き: 2辺の合計を入力</small>}
+                    {options.complexProcessing?.type === 'eguri' && <small style={{ display: 'block', color: '#ccc', marginTop: '0.5rem' }}>※エグリ: 3辺の合計を入力</small>}
+                    {options.complexProcessing?.type === 'square_hole' && <small style={{ display: 'block', color: '#ccc', marginTop: '0.5rem' }}>※角穴: 4辺の合計を入力</small>}
+                </div>
             </div>
         </div>
     );

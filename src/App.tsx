@@ -59,6 +59,9 @@ function App() {
       />
 
       <ResultCard result={result} />
+      <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
+        v1.1 (Includes Hikite & Complex Processing)
+      </footer>
     </div>
   );
 }
