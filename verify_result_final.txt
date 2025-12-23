@@ -1,0 +1,72 @@
+
+Running Verification...
+Loaded 11 test cases.
+
+Checking Test Case 1: Mirror 5mm...
+[Test Case 1: Mirror 5mm]
+  Expected: 770
+  Actual:   770
+  Result:   PASS
+-----------------------------------
+Checking Test Case 2: Heavy 8mm...
+[Test Case 2: Heavy 8mm]
+  Expected: 4800
+  Actual:   4800
+  Result:   PASS
+-----------------------------------
+Checking Test Case 3: Chamfer 12mm + Holes...
+[Test Case 3: Chamfer 12mm + Holes]
+  Expected: 8100
+  Actual:   8100
+  Result:   PASS
+-----------------------------------
+Checking Test Case 4: Sumikiri + 8mm Multiplier...
+[Test Case 4: Sumikiri + 8mm Multiplier]
+  Expected: 2140
+  Actual:   2140
+  Result:   PASS
+-----------------------------------
+Checking Test Case 5: 3 Sides + Arazuri...
+[Test Case 5: 3 Sides + Arazuri]
+  Expected: 990
+  Actual:   990
+  Result:   PASS
+-----------------------------------
+Checking Test Case 6: Material Cost...
+[Test Case 6: Material Cost]
+  Expected: 7200
+  Actual:   7200
+  Result:   PASS
+-----------------------------------
+Checking Test Case 7: Hikite Processing Tiers...
+[Test Case 7: Hikite Processing Tiers]
+  Expected: 3730
+  Actual:   3730
+  Result:   PASS
+-----------------------------------
+Checking Test Case 8: Notch (Kirikaki) Base...
+[Test Case 8: Notch (Kirikaki) Base]
+  Expected: 1000
+  Actual:   1000
+  Result:   PASS
+-----------------------------------
+Checking Test Case 9: Eguri Increment...
+[Test Case 9: Eguri Increment]
+  Expected: 2300
+  Actual:   2300
+  Result:   PASS
+-----------------------------------
+Checking Test Case 10: Square Hole + 8mm Multiplier...
+[Test Case 10: Square Hole + 8mm Multiplier]
+  Expected: 3750
+  Actual:   3750
+  Result:   PASS
+-----------------------------------
+Checking Test Case 11: Mixed Complex Processing (Arrays)...
+[Test Case 11: Mixed Complex Processing (Arrays)]
+  Expected: 6300
+  Actual:   6300
+  Result:   PASS
+-----------------------------------
+
+ALL TESTS PASSED

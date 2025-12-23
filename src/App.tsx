@@ -27,9 +27,9 @@ function App() {
     specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
     hikiteCount: 0,
     complexProcessing: {
-      notch: { totalLength: 0, count: 0 },
-      eguri: { totalLength: 0, count: 0 },
-      square_hole: { totalLength: 0, count: 0 }
+      notch: Array(4).fill({ totalLength: 0, count: 0 }),
+      eguri: Array(4).fill({ totalLength: 0, count: 0 }),
+      square_hole: Array(4).fill({ totalLength: 0, count: 0 })
     }
   });
 
@@ -64,7 +64,7 @@ function App() {
 
       <ResultCard result={result} />
       <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
-        v1.2 (Includes Hikite & Mixed Complex Processing)
+        v1.3 (Expanded Complex Processing Inputs)
       </footer>
     </div>
   );

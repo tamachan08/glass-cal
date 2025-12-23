@@ -1,279 +1,246 @@
 import { calculateTotal } from './src/logic/calculator';
-import { GlassDimensions, EdgeProcessing, ProcessingOptions } from './src/types';
+import type { GlassDimensions, EdgeProcessing, ProcessingOptions } from './src/types';
+import * as fs from 'fs';
 
-const testCases = [
-    {
-        name: 'Test Case 1: Mirror 5mm',
-        input: {
-            dimensions: { width: 300, height: 400, thickness: 5 } as GlassDimensions,
-            edge: {
-                type: 'flat_polish',
-                finish: 'migaki',
-                processedSides: { top: true, bottom: true, left: true, right: true }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0
-            } as ProcessingOptions
+// Test Cases
+const runTests = () => {
+    const testCases: { name: string, input: any, expected: number }[] = [
+        {
+            name: 'Test Case 1: Mirror 5mm',
+            input: {
+                dimensions: { width: 300, height: 400, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 770
         },
-        expected: 770
-    },
-    {
-        name: 'Test Case 2: Heavy 8mm',
-        input: {
-            dimensions: { width: 1000, height: 2000, thickness: 8 } as GlassDimensions,
-            edge: {
-                type: 'flat_polish',
-                finish: 'migaki',
-                processedSides: { top: true, bottom: true, left: true, right: true }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 2: Heavy 8mm',
+            input: {
+                dimensions: { width: 1000, height: 2000, thickness: 8 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 4800
         },
-        expected: 4800
-    },
-    {
-        name: 'Test Case 3: Chamfer 12mm + Holes',
-        input: {
-            dimensions: { width: 1000, height: 1000, thickness: 12 } as GlassDimensions,
-            edge: {
-                type: 'chamfer',
-                chamferWidth: '18',
-                polishChamferEdge: true,
-                finish: 'migaki',
-                processedSides: { top: true, bottom: true, left: true, right: true }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 2, d51_100: 0, d101_plus: 0 }, // φ50 is d31_50
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 3: Chamfer 12mm + Holes',
+            input: {
+                dimensions: { width: 1000, height: 1000, thickness: 12 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'chamfer', chamferWidth: '18', polishChamferEdge: true, finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    // Hole Processing: d31-50: 700 * 2 = 1400. Multiplier 1.5 -> 2100.
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 2, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 8100
         },
-        expected: 8100
-    },
-    {
-        name: 'Test Case 4: Sumikiri + 8mm Multiplier',
-        input: {
-            dimensions: { width: 500, height: 500, thickness: 8 } as GlassDimensions,
-            edge: {
-                type: 'flat_polish',
-                finish: 'migaki',
-                processedSides: { top: true, bottom: true, left: true, right: true }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 2, c50: 0, c100: 0, c200: 0 }, // 180 * 2 = 360
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0
-            } as ProcessingOptions
+        {
+            name: 'Test Case 4: Sumikiri + 8mm Multiplier',
+            input: {
+                dimensions: { width: 500, height: 500, thickness: 8 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 2, c50: 0, c100: 0, c200: 0 }, // C30=360 * 1.5 = 540.
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 2140
         },
-        // Edge Fee: 2.0m * 800 = 1600
-        // Option Fee: (180 * 2) * 1.5 = 360 * 1.5 = 540
-        // Total: 2140
-        expected: 2140
-    },
-    {
-        name: 'Test Case 5: 3 Sides + Arazuri',
-        input: {
-            dimensions: { width: 1000, height: 1000, thickness: 5 } as GlassDimensions,
-            edge: {
-                type: 'flat_polish',
-                finish: 'arazuri',
-                processedSides: { top: true, bottom: true, left: true, right: false }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 5: 3 Sides + Arazuri',
+            input: {
+                dimensions: { width: 1000, height: 500, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                // Top=1000, Left=500, Right=500. Total 2.0m.
+                edge: { type: 'flat_polish', finish: 'arazuri', processedSides: { top: true, bottom: false, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 990
         },
-        // Perimeter: 1.0 (Top) + 1.0 (Bottom) + 1.0 (Left) = 3.0m
-        // Price: 550 yen/m * 3.0m = 1650
-        // Arazuri Discount: 1650 * 0.9 = 1485
-        expected: 1485
-    },
-    {
-        name: 'Test Case 6: Material Cost',
-        input: {
-            dimensions: { width: 1000, height: 1000, thickness: 5 } as GlassDimensions,
-            unitPrice: 5000, // 5000 yen/m2
-            edge: {
-                type: 'flat_polish',
-                finish: 'migaki',
-                processedSides: { top: true, bottom: true, left: true, right: true }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 6: Material Cost',
+            input: {
+                dimensions: { width: 1000, height: 1000, thickness: 5 } as GlassDimensions,
+                unitPrice: 5000,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0
+                } as ProcessingOptions
+            },
+            expected: 7200
         },
-        // Area: 1.0 * 1.0 = 1.0 m2
-        // Material: 1.0 * 5000 = 5000
-        // Processing: 4.0m * 550 = 2200
-        // Total: 7200
-        expected: 7200
-    },
-    {
-        name: 'Test Case 7: Hikite Processing Tiers',
-        input: {
-            dimensions: { width: 1000, height: 1801, thickness: 5 } as GlassDimensions,
-            unitPrice: 0,
-            edge: {
-                type: 'flat_polish',
-                finish: 'migaki',
-                processedSides: { top: false, bottom: false, left: false, right: false }
-            } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 2
-            } as ProcessingOptions
+        {
+            name: 'Test Case 7: Hikite Processing Tiers',
+            input: {
+                dimensions: { width: 1500, height: 800, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: true, bottom: true, left: true, right: true } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 2
+                } as ProcessingOptions
+            },
+            expected: 3730
         },
-        // Perimeter: 0 (No sides)
-        // Edge Fee: 0
-        // Option Fee needs 1.5x multiplier for 8mm? No, logic uses thickness. Here it is 5mm. Multiplier 1.0.
-        // Long side: 1801mm -> Price 1000 yen.
-        // Fee: 2 * 1000 = 2000 yen.
-        // Total: 2000 yen.
-        expected: 2000
-    },
-    {
-        name: 'Test Case 8: Notch (Kirikaki) Base',
-        input: {
-            dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
-            unitPrice: 0,
-            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0,
-                complexProcessing: { notch: { totalLength: 200, count: 1 } }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 8: Notch (Kirikaki) Base',
+            input: {
+                dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: { notch: [{ totalLength: 200, count: 1 }] }
+                } as ProcessingOptions
+            },
+            expected: 1000
         },
-        // Notch <= 200mm -> 1000 yen.
-        expected: 1000
-    },
-    {
-        name: 'Test Case 9: Eguri Increment',
-        input: {
-            dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
-            unitPrice: 0,
-            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0,
-                complexProcessing: { eguri: { totalLength: 450, count: 1 } }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 9: Eguri Increment',
+            input: {
+                dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: { eguri: [{ totalLength: 450, count: 1 }] }
+                } as ProcessingOptions
+            },
+            expected: 2300
         },
-        // Eguri Base 300mm = 1500 yen.
-        // Excess 450 - 300 = 150mm.
-        // Increments: ceil(150/100) = 2.
-        // Add: 2 * 400 = 800 yen.
-        // Total: 2300 yen.
-        expected: 2300
-    },
-    {
-        name: 'Test Case 10: Square Hole + 8mm Multiplier',
-        input: {
-            dimensions: { width: 500, height: 500, thickness: 8 } as GlassDimensions,
-            unitPrice: 0,
-            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0,
-                complexProcessing: { square_hole: { totalLength: 400, count: 1 } }
-            } as ProcessingOptions
+        {
+            name: 'Test Case 10: Square Hole + 8mm Multiplier',
+            input: {
+                dimensions: { width: 500, height: 500, thickness: 8 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: { square_hole: [{ totalLength: 400, count: 1 }] }
+                } as ProcessingOptions
+            },
+            expected: 3750
         },
-        // Square Hole <= 400mm -> 2500 yen.
-        // Thickness 8mm -> Multiplier 1.5.
-        // Total: 2500 * 1.5 = 3750 yen.
-        expected: 3750
-    },
-    {
-        name: 'Test Case 11: Mixed Complex Processing',
-        input: {
-            dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
-            unitPrice: 0,
-            edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
-            options: {
-                rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
-                holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
-                cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
-                hikiteCount: 0,
-                complexProcessing: {
-                    notch: { totalLength: 200, count: 1 },         // 1000
-                    eguri: { totalLength: 300, count: 1 },         // 1500
-                    square_hole: { totalLength: 400, count: 1 }    // 2500
-                }
-            } as ProcessingOptions
-        },
-        // Total: 1000 + 1500 + 2500 = 5000 yen.
-        expected: 5000
-    }
-];
-
-console.log('Running Verification...\n');
-console.log(`Loaded ${testCases.length} test cases.`);
-
-let allPassed = true;
-
-try {
-    testCases.forEach(tc => {
-        try {
-            console.log(`Checking ${tc.name}...`);
-            // @ts-ignore
-            const price = tc.input.unitPrice ?? 0;
-            const result = calculateTotal(tc.input.dimensions, tc.input.edge, tc.input.options, price);
-            const passed = result.totalFee === tc.expected;
-
-            console.log(`[${tc.name}]`);
-            console.log(`  Expected: ${tc.expected}`);
-            console.log(`  Actual:   ${result.totalFee}`);
-            console.log(`  Perimeter: ${result.perimeter}m`);
-            console.log(`  EdgeFee:   ${result.edgeFee}`);
-            console.log(`  OptionFee: ${result.optionFee}`);
-            console.log(`  GlassCost: ${result.glassCost}`);
-            console.log(`  Result:   ${passed ? 'PASS' : 'FAIL'}`);
-            console.log('-----------------------------------');
-
-            if (!passed) allPassed = false;
-        } catch (e) {
-            console.error(`Error in ${tc.name}:`, e);
-            allPassed = false;
+        {
+            name: 'Test Case 11: Mixed Complex Processing (Arrays)',
+            input: {
+                dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                edge: { type: 'flat_polish', finish: 'migaki', processedSides: { top: false, bottom: false, left: false, right: false } } as EdgeProcessing,
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: {
+                        notch: [
+                            { totalLength: 200, count: 1 }, // 1000
+                            { totalLength: 300, count: 1 }  // 1300
+                        ],
+                        eguri: [{ totalLength: 300, count: 1 }],       // 1500
+                        square_hole: [{ totalLength: 400, count: 1 }]  // 2500
+                    }
+                } as ProcessingOptions
+            },
+            expected: 6300
         }
+    ];
+
+    let passed = 0;
+    let failed = 0;
+    let output = '';
+    const log = (msg: string) => {
+        console.log(msg);
+        output += msg + '\n';
+    };
+
+    log(`\nRunning Verification...`);
+    log(`Loaded ${testCases.length} test cases.\n`);
+
+    testCases.forEach((t) => {
+        const result = calculateTotal(t.input.dimensions, t.input.edge, t.input.options, t.input.unitPrice);
+        const actual = result.totalFee;
+
+        log(`Checking ${t.name}...`);
+        if (actual === t.expected) {
+            log(`[${t.name}]`);
+            log(`  Expected: ${t.expected}`);
+            log(`  Actual:   ${actual}`);
+            log(`  Result:   PASS`);
+            passed++;
+        } else {
+            log(`[${t.name}]`);
+            log(`  Expected: ${t.expected}`);
+            log(`  Actual:   ${actual}`);
+            log(`  Result:   FAIL`);
+            failed++;
+        }
+        log('-----------------------------------');
     });
-} catch (err) {
-    console.error("Top level error:", err);
-    allPassed = false;
+
+    if (failed === 0) {
+        log(`\nALL TESTS PASSED`);
+    } else {
+        log(`\nSOME TESTS FAILED`);
+    }
+
+    fs.writeFileSync('verify_result_final.txt', output);
+
+    if (failed === 0) {
+        process.exit(0);
+    } else {
+        process.exit(1);
+    }
 }
 
-if (allPassed) {
-    console.log('ALL TESTS PASSED');
-    process.exit(0);
-} else {
-    console.error('SOME TESTS FAILED');
-    process.exit(1);
-}
+runTests();

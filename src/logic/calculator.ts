@@ -75,10 +75,6 @@ export const calculateOptionFee = (
     baseRunningTotal += options.specialProcessing.ventilator * OPTION_PRICES.specialProcessing.ventilator;
 
     // Hikite Processing (Finger Pull)
-    // Pricing based on long side dimension
-    // ~1200mm: 400 JPY
-    // ~1800mm: 600 JPY
-    // 1801mm+: 1000 JPY
     if (options.hikiteCount > 0) {
         const longSide = Math.max(dimensions.width, dimensions.height);
         let hikiteUnitPrice = 0;
@@ -95,8 +91,8 @@ export const calculateOptionFee = (
     }
 
     // Complex Processing (Notch/Eguri/Square Hole)
+    // Now supporting arrays of items
     if (options.complexProcessing) {
-        // Helper to calc unit price
         const calcComplexPrice = (type: 'notch' | 'eguri' | 'square_hole', length: number): number => {
             if (length <= 0) return 0;
             if (type === 'notch') {
@@ -112,18 +108,30 @@ export const calculateOptionFee = (
         };
 
         // Notch
-        if (options.complexProcessing.notch && options.complexProcessing.notch.count > 0) {
-            baseRunningTotal += calcComplexPrice('notch', options.complexProcessing.notch.totalLength) * options.complexProcessing.notch.count;
+        if (options.complexProcessing.notch && Array.isArray(options.complexProcessing.notch)) {
+            options.complexProcessing.notch.forEach(item => {
+                if (item.count > 0 && item.totalLength > 0) {
+                    baseRunningTotal += calcComplexPrice('notch', item.totalLength) * item.count;
+                }
+            });
         }
 
         // Eguri
-        if (options.complexProcessing.eguri && options.complexProcessing.eguri.count > 0) {
-            baseRunningTotal += calcComplexPrice('eguri', options.complexProcessing.eguri.totalLength) * options.complexProcessing.eguri.count;
+        if (options.complexProcessing.eguri && Array.isArray(options.complexProcessing.eguri)) {
+            options.complexProcessing.eguri.forEach(item => {
+                if (item.count > 0 && item.totalLength > 0) {
+                    baseRunningTotal += calcComplexPrice('eguri', item.totalLength) * item.count;
+                }
+            });
         }
 
         // Square Hole
-        if (options.complexProcessing.square_hole && options.complexProcessing.square_hole.count > 0) {
-            baseRunningTotal += calcComplexPrice('square_hole', options.complexProcessing.square_hole.totalLength) * options.complexProcessing.square_hole.count;
+        if (options.complexProcessing.square_hole && Array.isArray(options.complexProcessing.square_hole)) {
+            options.complexProcessing.square_hole.forEach(item => {
+                if (item.count > 0 && item.totalLength > 0) {
+                    baseRunningTotal += calcComplexPrice('square_hole', item.totalLength) * item.count;
+                }
+            });
         }
     }
 

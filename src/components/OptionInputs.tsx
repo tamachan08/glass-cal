@@ -29,6 +29,62 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
         });
     };
 
+    const renderComplexRows = (
+        type: 'notch' | 'eguri' | 'square_hole',
+        label: string,
+        items: Array<{ totalLength: number; count: number }> | undefined
+    ) => {
+        const safeItems = items || Array(4).fill({ totalLength: 0, count: 0 });
+
+        return (
+            <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
+                <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#555' }}>{label}</h4>
+                {safeItems.map((item, index) => (
+                    <div key={index} style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'flex-end' }}>
+                        <div className="option-item" style={{ flex: 1 }}>
+                            <label style={{ fontSize: '0.8rem' }}>サイズ (mm)</label>
+                            <input
+                                type="number" min="0" placeholder={`例: ${type === 'notch' ? 200 : type === 'eguri' ? 300 : 400}`}
+                                value={item.totalLength || ''}
+                                onChange={e => {
+                                    const newItems = [...safeItems];
+                                    newItems[index] = { ...item, totalLength: Number(e.target.value) };
+                                    onChange({
+                                        ...options,
+                                        complexProcessing: {
+                                            ...(options.complexProcessing || {}),
+                                            [type]: newItems
+                                        }
+                                    });
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                        <div className="option-item" style={{ flex: 1 }}>
+                            <label style={{ fontSize: '0.8rem' }}>個数</label>
+                            <input
+                                type="number" min="0"
+                                value={item.count || ''}
+                                onChange={e => {
+                                    const newItems = [...safeItems];
+                                    newItems[index] = { ...item, count: Number(e.target.value) };
+                                    onChange({
+                                        ...options,
+                                        complexProcessing: {
+                                            ...(options.complexProcessing || {}),
+                                            [type]: newItems
+                                        }
+                                    });
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
     return (
         <div className="glass-card">
             <h2>Step 3: オプション加工（個数）</h2>
@@ -157,109 +213,11 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                 </div>
 
                 {/* Complex Processing */}
-            </div>
-
-            {/* Complex Processing */}
-            <div>
-                <h3>変形加工</h3>
-
-                {/* Notch */}
-                <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
-                    <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#555' }}>切り欠き (2辺計)</h4>
-                    <div className="option-item">
-                        <label>サイズ (mm)</label>
-                        <input
-                            type="number" min="0" placeholder="例: 200"
-                            value={options.complexProcessing?.notch?.totalLength || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    notch: { ...(options.complexProcessing?.notch || { count: 0 }), totalLength: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
-                    <div className="option-item">
-                        <label>個数</label>
-                        <input
-                            type="number" min="0"
-                            value={options.complexProcessing?.notch?.count || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    notch: { ...(options.complexProcessing?.notch || { totalLength: 0 }), count: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
-                </div>
-
-                {/* Eguri */}
-                <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
-                    <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#555' }}>エグリ (3辺計)</h4>
-                    <div className="option-item">
-                        <label>サイズ (mm)</label>
-                        <input
-                            type="number" min="0" placeholder="例: 300"
-                            value={options.complexProcessing?.eguri?.totalLength || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    eguri: { ...(options.complexProcessing?.eguri || { count: 0 }), totalLength: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
-                    <div className="option-item">
-                        <label>個数</label>
-                        <input
-                            type="number" min="0"
-                            value={options.complexProcessing?.eguri?.count || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    eguri: { ...(options.complexProcessing?.eguri || { totalLength: 0 }), count: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
-                </div>
-
-                {/* Square Hole */}
                 <div>
-                    <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#555' }}>角穴 (4辺計)</h4>
-                    <div className="option-item">
-                        <label>サイズ (mm)</label>
-                        <input
-                            type="number" min="0" placeholder="例: 400"
-                            value={options.complexProcessing?.square_hole?.totalLength || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    square_hole: { ...(options.complexProcessing?.square_hole || { count: 0 }), totalLength: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
-                    <div className="option-item">
-                        <label>個数</label>
-                        <input
-                            type="number" min="0"
-                            value={options.complexProcessing?.square_hole?.count || ''}
-                            onChange={e => onChange({
-                                ...options,
-                                complexProcessing: {
-                                    ...options.complexProcessing,
-                                    square_hole: { ...(options.complexProcessing?.square_hole || { totalLength: 0 }), count: Number(e.target.value) }
-                                }
-                            })}
-                        />
-                    </div>
+                    <h3>変形加工</h3>
+                    {renderComplexRows('notch', '切り欠き (2辺計)', options.complexProcessing?.notch)}
+                    {renderComplexRows('eguri', 'エグリ (3辺計)', options.complexProcessing?.eguri)}
+                    {renderComplexRows('square_hole', '角穴 (4辺計)', options.complexProcessing?.square_hole)}
                 </div>
             </div>
         </div>
