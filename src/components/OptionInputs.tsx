@@ -36,7 +36,7 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
             <div className="grid-3">
                 {/* R Processing */}
                 <div>
-                    <h3>R加工・スミキリ</h3>
+                    <h3>R加工</h3>
                     <div className="option-item">
                         <label>〜R15</label>
                         <input type="number" min="0" value={options.rProcessing.r15 || ''} onChange={e => updateR('r15', Number(e.target.value))} />
