@@ -26,7 +26,11 @@ function App() {
     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
     specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
     hikiteCount: 0,
-    complexProcessing: { type: 'notch', totalLength: 0, count: 0 }
+    complexProcessing: {
+      notch: { totalLength: 0, count: 0 },
+      eguri: { totalLength: 0, count: 0 },
+      square_hole: { totalLength: 0, count: 0 }
+    }
   });
 
   const result = useMemo(() => {
@@ -60,7 +64,7 @@ function App() {
 
       <ResultCard result={result} />
       <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
-        v1.1 (Includes Hikite & Complex Processing)
+        v1.2 (Includes Hikite & Mixed Complex Processing)
       </footer>
     </div>
   );

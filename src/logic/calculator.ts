@@ -95,38 +95,36 @@ export const calculateOptionFee = (
     }
 
     // Complex Processing (Notch/Eguri/Square Hole)
-    if (options.complexProcessing && options.complexProcessing.count > 0 && options.complexProcessing.totalLength > 0) {
-        const { type, totalLength, count } = options.complexProcessing;
-        let unitPrice = 0;
+    if (options.complexProcessing) {
+        // Helper to calc unit price
+        const calcComplexPrice = (type: 'notch' | 'eguri' | 'square_hole', length: number): number => {
+            if (length <= 0) return 0;
+            if (type === 'notch') {
+                return length <= 200 ? 1000 : (1000 + Math.ceil((length - 200) / 100) * 300);
+            }
+            if (type === 'eguri') {
+                return length <= 300 ? 1500 : (1500 + Math.ceil((length - 300) / 100) * 400);
+            }
+            if (type === 'square_hole') {
+                return length <= 400 ? 2500 : (2500 + Math.ceil((length - 400) / 100) * 600);
+            }
+            return 0;
+        };
 
-        if (type === 'notch') { // 切り欠き
-            // Base: 1000 yen <= 200mm
-            // Add: 300 yen per 100mm over 200mm
-            if (totalLength <= 200) {
-                unitPrice = 1000;
-            } else {
-                unitPrice = 1000 + Math.ceil((totalLength - 200) / 100) * 300;
-            }
-        } else if (type === 'eguri') { // エグリ
-            // Base: 1500 yen <= 300mm
-            // Add: 400 yen per 100mm over 300mm
-            if (totalLength <= 300) {
-                unitPrice = 1500;
-            } else {
-                unitPrice = 1500 + Math.ceil((totalLength - 300) / 100) * 400;
-            }
-        } else if (type === 'square_hole') { // 角穴
-            // Base: 2500 yen <= 400mm
-            // Add: 600 yen per 100mm over 400mm
-            if (totalLength <= 400) {
-                unitPrice = 2500;
-            } else {
-                unitPrice = 2500 + Math.ceil((totalLength - 400) / 100) * 600;
-            }
+        // Notch
+        if (options.complexProcessing.notch && options.complexProcessing.notch.count > 0) {
+            baseRunningTotal += calcComplexPrice('notch', options.complexProcessing.notch.totalLength) * options.complexProcessing.notch.count;
         }
 
-        // This is subject to thickness multiplier (same as other options)
-        baseRunningTotal += unitPrice * count;
+        // Eguri
+        if (options.complexProcessing.eguri && options.complexProcessing.eguri.count > 0) {
+            baseRunningTotal += calcComplexPrice('eguri', options.complexProcessing.eguri.totalLength) * options.complexProcessing.eguri.count;
+        }
+
+        // Square Hole
+        if (options.complexProcessing.square_hole && options.complexProcessing.square_hole.count > 0) {
+            baseRunningTotal += calcComplexPrice('square_hole', options.complexProcessing.square_hole.totalLength) * options.complexProcessing.square_hole.count;
+        }
     }
 
     return Math.ceil(baseRunningTotal * multiplier);

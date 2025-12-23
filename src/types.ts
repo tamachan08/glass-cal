@@ -58,9 +58,9 @@ export interface ProcessingOptions {
   };
   hikiteCount: number; // Finger Pull
   complexProcessing?: {
-    type: ComplexProcessingType;
-    totalLength: number; // mm
-    count: number;
+    notch?: { totalLength: number; count: number };
+    eguri?: { totalLength: number; count: number };
+    square_hole?: { totalLength: number; count: number };
   };
 }
 

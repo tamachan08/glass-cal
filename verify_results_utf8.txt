@@ -1,0 +1,113 @@
+﻿Running Verification...
+
+Loaded 11 test cases.
+Checking Test Case 1: Mirror 5mm...
+[Test Case 1: Mirror 5mm]
+  Expected: 770
+  Actual:   770
+  Perimeter: 1.4m
+  EdgeFee:   770
+  OptionFee: 0
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 2: Heavy 8mm...
+[Test Case 2: Heavy 8mm]
+  Expected: 4800
+  Actual:   4800
+  Perimeter: 6m
+  EdgeFee:   4800
+  OptionFee: 0
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 3: Chamfer 12mm + Holes...
+[Test Case 3: Chamfer 12mm + Holes]
+  Expected: 8100
+  Actual:   8100
+  Perimeter: 4m
+  EdgeFee:   6000
+  OptionFee: 2100
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 4: Sumikiri + 8mm Multiplier...
+[Test Case 4: Sumikiri + 8mm Multiplier]
+  Expected: 2140
+  Actual:   2140
+  Perimeter: 2m
+  EdgeFee:   1600
+  OptionFee: 540
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 5: 3 Sides + Arazuri...
+[Test Case 5: 3 Sides + Arazuri]
+  Expected: 1485
+  Actual:   1485
+  Perimeter: 3m
+  EdgeFee:   1485
+  OptionFee: 0
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 6: Material Cost...
+[Test Case 6: Material Cost]
+  Expected: 7200
+  Actual:   7200
+  Perimeter: 4m
+  EdgeFee:   2200
+  OptionFee: 0
+  GlassCost: 5000
+  Result:   PASS
+-----------------------------------
+Checking Test Case 7: Hikite Processing Tiers...
+[Test Case 7: Hikite Processing Tiers]
+  Expected: 2000
+  Actual:   2000
+  Perimeter: 0m
+  EdgeFee:   0
+  OptionFee: 2000
+  GlassCost: 0
+  Result:   PASS
+-----------------------------------
+Checking Test Case 8: Notch (Kirikaki) Base...
+[Test Case 8: Notch (Kirikaki) Base]
+  Expected: 1000
+  Actual:   0
+  Perimeter: 0m
+  EdgeFee:   0
+  OptionFee: 0
+  GlassCost: 0
+  Result:   FAIL
+-----------------------------------
+Checking Test Case 9: Eguri Increment...
+[Test Case 9: Eguri Increment]
+  Expected: 2300
+  Actual:   0
+  Perimeter: 0m
+  EdgeFee:   0
+  OptionFee: 0
+  GlassCost: 0
+  Result:   FAIL
+-----------------------------------
+Checking Test Case 10: Square Hole + 8mm Multiplier...
+[Test Case 10: Square Hole + 8mm Multiplier]
+  Expected: 3750
+  Actual:   0
+  Perimeter: 0m
+  EdgeFee:   0
+  OptionFee: 0
+  GlassCost: 0
+  Result:   FAIL
+-----------------------------------
+Checking Test Case 11: Mixed Complex Processing...
+[Test Case 11: Mixed Complex Processing]
+  Expected: 5000
+  Actual:   0
+  Perimeter: 0m
+  EdgeFee:   0
+  OptionFee: 0
+  GlassCost: 0
+  Result:   FAIL
+-----------------------------------
