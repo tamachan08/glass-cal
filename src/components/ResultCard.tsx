@@ -10,6 +10,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
         <div className="glass-card result-box">
             <h2>計算結果</h2>
             <div className="result-row">
+                <span>ガラス面積</span>
+                <span>{result.areaM2.toFixed(3)} ㎡</span>
+            </div>
+            <div className="result-row">
                 <span>外周距離</span>
                 <span>{result.perimeter} m</span>
             </div>

@@ -181,8 +181,10 @@ export const calculateTotal = (
 
     const total = edgeFee + optionFee + glassCost;
     const roundedTotal = Math.ceil(total / 10) * 10;
+    const areaM2 = (dimensions.width * dimensions.height) / 1_000_000;
 
     return {
+        areaM2,
         perimeter,
         edgeFee,
         optionFee,

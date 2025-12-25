@@ -67,6 +67,7 @@ export interface ProcessingOptions {
 }
 
 export interface CalculationResult {
+  areaM2: number; // square meters
   perimeter: number; // meters
   edgeFee: number;
   optionFee: number;
