@@ -27,6 +27,10 @@ export const CHAMFER_PRICES: Record<ChamferWidth, { polished: number; unpolished
         polished: 1800,
         unpolished: 1600,
     },
+    '25_plus': {
+        polished: 2700,
+        unpolished: 2700,
+    },
 };
 
 // ③ オプション加工単価（円/個所） FL5mm base

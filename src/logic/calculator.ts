@@ -4,15 +4,16 @@ import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIER
 export const calculatePerimeter = (
     widthMm: number,
     heightMm: number,
-    processedSides?: { top: boolean; bottom: boolean; left: boolean; right: boolean }
+    edge?: EdgeProcessing
 ): number => {
     let length = 0;
-    if (processedSides) {
+    // Fallback if edge is undefined (shouldn't happen in app usage but good for safety)
+    if (edge) {
         length =
-            (processedSides.top ? widthMm : 0) +
-            (processedSides.bottom ? widthMm : 0) +
-            (processedSides.left ? heightMm : 0) +
-            (processedSides.right ? heightMm : 0);
+            (edge.top.enabled ? widthMm : 0) +
+            (edge.bottom.enabled ? widthMm : 0) +
+            (edge.left.enabled ? heightMm : 0) +
+            (edge.right.enabled ? heightMm : 0);
     } else {
         length = widthMm * 2 + heightMm * 2;
     }
@@ -21,24 +22,41 @@ export const calculatePerimeter = (
 
 export const calculateEdgeFee = (
     dimensions: GlassDimensions,
-    edge: EdgeProcessing,
-    perimeterMeters: number
+    edge: EdgeProcessing
 ): number => {
-    // Finish Multiplier
-    const finishMultiplier = edge.finish === 'arazuri' ? 0.9 : 1.0;
+    const calcSideFee = (side: keyof EdgeProcessing, lengthMm: number): number => {
+        const config = edge[side];
+        if (!config.enabled) return 0;
 
-    if (edge.type === 'flat_polish') {
-        const pricePerMeter = FLAT_POLISH_PRICES[dimensions.thickness];
-        return Math.ceil(perimeterMeters * pricePerMeter * finishMultiplier);
-    } else if (edge.type === 'chamfer') {
-        if (!edge.chamferWidth) {
-            return 0;
+        const lengthMeters = Math.ceil(lengthMm / 10) / 100;
+        const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+
+        let unitPrice = 0;
+
+        if (config.type === 'flat_polish') {
+            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness];
+        } else if (config.type === 'chamfer') {
+            if (!config.chamferWidth) return 0;
+            const prices = CHAMFER_PRICES[config.chamferWidth];
+            unitPrice = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+        } else if (config.type === 'suriawase') {
+            // Suriawase = 3x Flat Polish
+            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
+        } else if (config.type === 'kamaboko') {
+            // Kamaboko = 2x Flat Polish
+            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 2;
         }
-        const prices = CHAMFER_PRICES[edge.chamferWidth];
-        const unitPrice = edge.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
-        return Math.ceil(perimeterMeters * unitPrice * finishMultiplier);
-    }
-    return 0;
+
+        return Math.ceil(lengthMeters * unitPrice * finishMultiplier);
+    };
+
+    let totalEdgeFee = 0;
+    totalEdgeFee += calcSideFee('top', dimensions.width);
+    totalEdgeFee += calcSideFee('bottom', dimensions.width);
+    totalEdgeFee += calcSideFee('left', dimensions.height);
+    totalEdgeFee += calcSideFee('right', dimensions.height);
+
+    return totalEdgeFee;
 };
 
 export const calculateOptionFee = (
@@ -156,16 +174,19 @@ export const calculateTotal = (
     options: ProcessingOptions,
     unitPrice: number
 ): CalculationResult => {
-    const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge.processedSides);
-    const edgeFee = calculateEdgeFee(dimensions, edge, perimeter);
+    const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge);
+    const edgeFee = calculateEdgeFee(dimensions, edge);
     const optionFee = calculateOptionFee(dimensions, options);
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
+
+    const total = edgeFee + optionFee + glassCost;
+    const roundedTotal = Math.ceil(total / 10) * 10;
 
     return {
         perimeter,
         edgeFee,
         optionFee,
         glassCost,
-        totalFee: edgeFee + optionFee + glassCost,
+        totalFee: roundedTotal,
     };
 };

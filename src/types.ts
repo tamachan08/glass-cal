@@ -1,8 +1,8 @@
 export type GlassThickness = 3 | 5 | 6 | 8 | 10 | 12;
 
-export type ProcessingType = 'flat_polish' | 'chamfer';
+export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko';
 
-export type ChamferWidth = '12' | '18' | '24'; // ~12mm, ~18mm, ~24mm
+export type ChamferWidth = '12' | '18' | '24' | '25_plus'; // ~12mm, ~18mm, ~24mm, 25mm+
 
 export type OptionType = 'R_processing' | 'hole_processing' | 'special_processing';
 
@@ -16,17 +16,19 @@ export interface GlassDimensions {
 
 export type EdgeFinish = 'migaki' | 'arazuri'; // Polished (Default) vs Rough (0.9x)
 
-export interface EdgeProcessing {
+export interface SideConfig {
+  enabled: boolean;
   type: ProcessingType;
-  chamferWidth?: ChamferWidth; // Required if type is 'chamfer'
-  polishChamferEdge?: boolean; // Default true, applicable if type is 'chamfer'
   finish: EdgeFinish;
-  processedSides: {
-    top: boolean;
-    bottom: boolean;
-    left: boolean;
-    right: boolean;
-  };
+  chamferWidth?: ChamferWidth;
+  polishChamferEdge?: boolean;
+}
+
+export interface EdgeProcessing {
+  top: SideConfig;
+  bottom: SideConfig;
+  left: SideConfig;
+  right: SideConfig;
 }
 
 export interface ProcessingOptions {
