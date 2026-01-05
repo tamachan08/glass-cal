@@ -57,9 +57,9 @@ export const calculateEdgeFee = (
     totalEdgeFee += calcSideFee('left', dimensions.height);
     totalEdgeFee += calcSideFee('right', dimensions.height);
 
-    // Apply shape multiplier
+    // Apply shape multiplier and round up to nearest 10 yen
     const shapeMultiplier = SHAPE_MULTIPLIERS[shape] || 1.0;
-    return Math.ceil(totalEdgeFee * shapeMultiplier);
+    return Math.ceil((totalEdgeFee * shapeMultiplier) / 10) * 10;
 };
 
 export const calculateOptionFee = (
