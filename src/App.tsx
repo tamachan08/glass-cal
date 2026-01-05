@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import { GlassInputs } from './components/GlassInputs';
+import { ShapeSelector } from './components/ShapeSelector';
 import { EdgeSelector } from './components/EdgeSelector';
 import { OptionInputs } from './components/OptionInputs';
 import { ResultCard } from './components/ResultCard';
-import type { GlassDimensions, EdgeProcessing, ProcessingOptions } from './types';
+import type { GlassDimensions, EdgeProcessing, ProcessingOptions, ShapeType } from './types';
 import { calculateTotal } from './logic/calculator';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     thickness: 5 // Default 5mm
   });
   const [unitPrice, setUnitPrice] = useState<number>(0);
+  const [shape, setShape] = useState<ShapeType>('RECT');
 
   const defaultSideConfig: import('./types').SideConfig = {
     enabled: true,
@@ -45,6 +47,7 @@ function App() {
 
     setDimensions({ width: 0, height: 0, thickness: 5 });
     setUnitPrice(0);
+    setShape('RECT');
     setEdge({
       top: { ...defaultSideConfig },
       bottom: { ...defaultSideConfig },
@@ -66,8 +69,8 @@ function App() {
   };
 
   const result = useMemo(() => {
-    return calculateTotal(dimensions, edge, options, unitPrice);
-  }, [dimensions, edge, options, unitPrice]);
+    return calculateTotal(dimensions, edge, shape, options, unitPrice);
+  }, [dimensions, edge, shape, options, unitPrice]);
 
   return (
     <div className="app-container">
@@ -102,6 +105,11 @@ function App() {
         onUnitPriceChange={setUnitPrice}
       />
 
+      <ShapeSelector
+        shape={shape}
+        onChange={setShape}
+      />
+
       <EdgeSelector
         edge={edge}
         onChange={setEdge}
@@ -114,10 +122,9 @@ function App() {
 
       <ResultCard result={result} />
       <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
-        v1.4 (With Reset Button)
+        v2.0 (Shape Multipliers)
       </footer>
     </div>
   );
 }
-
 export default App;
