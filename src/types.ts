@@ -1,4 +1,6 @@
-export type GlassThickness = 3 | 5 | 6 | 8 | 10 | 12;
+export type GlassThickness = 3 | 4 | 5 | 6 | 8 | 10 | 12;
+
+export type GlassMode = 'standard' | 'manual';
 
 export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko';
 
@@ -71,6 +73,7 @@ export interface ProcessingOptions {
     outletSmall: number;
     outletLarge: number;
     ventilator: number;
+    hikite?: number; // Kept for backward compat if needed, but using hikiteCount
   };
   hikiteCount: number; // Finger Pull
   complexProcessing?: {
