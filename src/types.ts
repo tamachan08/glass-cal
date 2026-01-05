@@ -4,6 +4,20 @@ export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko
 
 export type ChamferWidth = '12' | '18' | '24' | '25_plus'; // ~12mm, ~18mm, ~24mm, 25mm+
 
+export type ShapeType =
+  | 'RECT'
+  | 'CORNER_1'
+  | 'CORNER_2'
+  | 'TENMARU_1'
+  | 'HEXAGON'
+  | 'TENMARU_2'
+  | 'OCTAGON'
+  | 'CIRCLE'
+  | 'ELLIPSE'
+  | 'FAN'
+  | 'IRREGULAR'
+  | 'COMPLEX';
+
 export type OptionType = 'R_processing' | 'hole_processing' | 'special_processing';
 
 export type ComplexProcessingType = 'notch' | 'eguri' | 'square_hole';

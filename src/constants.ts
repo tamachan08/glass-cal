@@ -72,3 +72,33 @@ export const THICKNESS_MULTIPLIERS: Record<GlassThickness, number> = {
     10: 1.5,
     12: 1.5,
 };
+
+export const SHAPE_MULTIPLIERS: Record<import('./types').ShapeType, number> = {
+    'RECT': 1.0,
+    'CORNER_1': 1.5,
+    'CORNER_2': 2.0,
+    'TENMARU_1': 2.0,
+    'HEXAGON': 2.0,
+    'TENMARU_2': 3.0,
+    'OCTAGON': 3.0,
+    'CIRCLE': 4.0,
+    'ELLIPSE': 5.0,
+    'FAN': 5.0,
+    'IRREGULAR': 8.0,
+    'COMPLEX': 10.0
+};
+
+export const SHAPE_LABELS: Record<import('./types').ShapeType, string> = {
+    'RECT': '四角形 (1倍)',
+    'CORNER_1': 'トメ切り（1ヶ所） (1.5倍)',
+    'CORNER_2': 'トメ切り（2ヶ所） (2倍)',
+    'TENMARU_1': '片天丸 (2倍)',
+    'HEXAGON': '六角形 (2倍)',
+    'TENMARU_2': '両天丸 (3倍)',
+    'OCTAGON': '八角形 (3倍)',
+    'CIRCLE': '円形（丸） (4倍)',
+    'ELLIPSE': '楕円 (5倍)',
+    'FAN': '扇形 (5倍)',
+    'IRREGULAR': '異形 (8倍)',
+    'COMPLEX': '複雑異形 (10倍)'
+};

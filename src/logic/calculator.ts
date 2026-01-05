@@ -1,5 +1,5 @@
-import type { GlassDimensions, EdgeProcessing, ProcessingOptions, CalculationResult } from '../types';
-import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS } from '../constants';
+import type { GlassDimensions, EdgeProcessing, ProcessingOptions, CalculationResult, ShapeType } from '../types';
+import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS } from '../constants';
 
 export const calculatePerimeter = (
     widthMm: number,
@@ -22,7 +22,8 @@ export const calculatePerimeter = (
 
 export const calculateEdgeFee = (
     dimensions: GlassDimensions,
-    edge: EdgeProcessing
+    edge: EdgeProcessing,
+    shape: ShapeType
 ): number => {
     const calcSideFee = (side: keyof EdgeProcessing, lengthMm: number): number => {
         const config = edge[side];
@@ -56,7 +57,9 @@ export const calculateEdgeFee = (
     totalEdgeFee += calcSideFee('left', dimensions.height);
     totalEdgeFee += calcSideFee('right', dimensions.height);
 
-    return totalEdgeFee;
+    // Apply shape multiplier
+    const shapeMultiplier = SHAPE_MULTIPLIERS[shape] || 1.0;
+    return Math.ceil(totalEdgeFee * shapeMultiplier);
 };
 
 export const calculateOptionFee = (
@@ -171,11 +174,12 @@ export const calculateGlassCost = (
 export const calculateTotal = (
     dimensions: GlassDimensions,
     edge: EdgeProcessing,
+    shape: ShapeType,
     options: ProcessingOptions,
     unitPrice: number
 ): CalculationResult => {
     const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge);
-    const edgeFee = calculateEdgeFee(dimensions, edge);
+    const edgeFee = calculateEdgeFee(dimensions, edge, shape);
     const optionFee = calculateOptionFee(dimensions, options);
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
 
