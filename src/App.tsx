@@ -4,10 +4,15 @@ import { ShapeSelector } from './components/ShapeSelector';
 import { EdgeSelector } from './components/EdgeSelector';
 import { OptionInputs } from './components/OptionInputs';
 import { ResultCard } from './components/ResultCard';
-import type { GlassDimensions, EdgeProcessing, ProcessingOptions, ShapeType } from './types';
+import type { GlassDimensions, EdgeProcessing, ProcessingOptions, ShapeType, GlassMode } from './types';
 import { calculateTotal } from './logic/calculator';
+import { MATERIAL_DB } from './constants';
 
 function App() {
+  // V4.0 State
+  const [mode, setMode] = useState<GlassMode>('standard');
+  const [materialCode, setMaterialCode] = useState<string>('');
+
   const [dimensions, setDimensions] = useState<GlassDimensions>({
     width: 0,
     height: 0,
@@ -45,6 +50,8 @@ function App() {
   const handleReset = () => {
     if (!window.confirm('入力内容を全てリセットしますか？')) return;
 
+    setMode('standard');
+    setMaterialCode('');
     setDimensions({ width: 0, height: 0, thickness: 5 });
     setUnitPrice(0);
     setShape('RECT');
@@ -66,6 +73,33 @@ function App() {
         square_hole: Array(4).fill({ totalLength: 0, count: 0 })
       }
     });
+  };
+
+  const handleModeChange = (newMode: GlassMode) => {
+    setMode(newMode);
+    if (newMode === 'standard') {
+      // Reset custom values when switching to standard to avoid confusion? 
+      // Or keep them? Let's reset to force selection.
+      setMaterialCode('');
+      setUnitPrice(0);
+      setDimensions(p => ({ ...p, thickness: 5 }));
+    } else {
+      // Manual mode default
+      setMaterialCode('');
+      setUnitPrice(0);
+      setDimensions(p => ({ ...p, thickness: 5 }));
+    }
+  };
+
+  const handleMaterialCodeChange = (code: string) => {
+    setMaterialCode(code);
+    const info = MATERIAL_DB[code];
+    if (info) {
+      setUnitPrice(info.price);
+      setDimensions(p => ({ ...p, thickness: info.thick }));
+    } else {
+      setUnitPrice(0);
+    }
   };
 
   const result = useMemo(() => {
@@ -95,6 +129,10 @@ function App() {
       </div>
 
       <GlassInputs
+        mode={mode}
+        onModeChange={handleModeChange}
+        materialCode={materialCode}
+        onMaterialCodeChange={handleMaterialCodeChange}
         width={dimensions.width}
         height={dimensions.height}
         thickness={dimensions.thickness}

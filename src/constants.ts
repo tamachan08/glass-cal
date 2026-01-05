@@ -1,9 +1,35 @@
 import type { GlassThickness, ChamferWidth } from './types';
 
+// V4.0 Material DB
+export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness; label: string }> = {
+    // 透明フロート
+    "FL3": { price: 2400, thick: 3, label: '透明フロート 3mm (FL3)' },
+    "FL5": { price: 2900, thick: 5, label: '透明フロート 5mm (FL5)' },
+    "FL6": { price: 3500, thick: 6, label: '透明フロート 6mm (FL6)' },
+    "FL8": { price: 5200, thick: 8, label: '透明フロート 8mm (FL8)' },
+    "FL10": { price: 6800, thick: 10, label: '透明フロート 10mm (FL10)' },
+    "FL12": { price: 18500, thick: 12, label: '透明フロート 12mm (FL12)' },
+    // ミラー
+    "M3": { price: 2800, thick: 3, label: 'ミラー 3mm (M3)' },
+    "CM5": { price: 4000, thick: 5, label: 'クリアミラー 5mm (CM5)' },
+    "M6": { price: 9600, thick: 6, label: 'ミラー 6mm (M6)' },
+    "JM5": { price: 5600, thick: 5, label: '防湿ミラー 5mm (JM5)' },
+    "MS5": { price: 21600, thick: 5, label: '高透過ミラー 5mm (MS5)' },
+    // 型・スリ・その他
+    "F4K": { price: 3200, thick: 4, label: '型ガラス 4mm (F4K)' },
+    "F6K": { price: 5600, thick: 6, label: '型ガラス 6mm (F6K)' },
+    "G3": { price: 5600, thick: 3, label: 'スリガラス 3mm (G3)' },
+    "G5": { price: 8000, thick: 5, label: 'スリガラス 5mm (G5)' },
+    "OPT5": { price: 15200, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
+    "CM_NB": { price: 19200, thick: 5, label: 'ブロンズミラー 5mm (CM-NB)' },
+    "CM_BZ": { price: 5600, thick: 5, label: 'ブロンズガラス 5mm (CM-BZ)' } // Spec says CM_BZ price 5600, verify code/name mapping if possible but sticking to provided DB
+};
+
 // ① 加工単価マスタ（円/ｍ）※外周メートルあたりの単価
 // 厚み: 平磨き(糸面)
 export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
     3: 450,
+    4: 550, // Added for V4.0
     5: 550,
     6: 600,
     8: 800,
@@ -63,9 +89,10 @@ export const OPTION_PRICES = {
     },
 };
 
-// Coefficient logic: 3,5,6mm = 1.0; 8,10,12mm = 1.5
+// Coefficient logic: 3,4,5,6mm = 1.0; 8,10,12mm = 1.5
 export const THICKNESS_MULTIPLIERS: Record<GlassThickness, number> = {
     3: 1.0,
+    4: 1.0, // Added for V4.0
     5: 1.0,
     6: 1.0,
     8: 1.5,
