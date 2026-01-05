@@ -13,7 +13,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "M3": { price: 2800, thick: 3, label: 'ミラー 3mm (M3)' },
     "CM5": { price: 4000, thick: 5, label: 'クリアミラー 5mm (CM5)' },
     "M6": { price: 9600, thick: 6, label: 'ミラー 6mm (M6)' },
-    "JM5": { price: 5600, thick: 5, label: '防湿ミラー 5mm (JM5)' },
+    "JM5": { price: 5600, thick: 5, label: '国産ミラー 5mm (JM5)' },
+    "EPM5": { price: 8000, thick: 5, label: '防湿ミラー 5mm (EPM5)' },
     "MS5": { price: 21600, thick: 5, label: '高透過ミラー 5mm (MS5)' },
     // 型・スリ・その他
     "F4K": { price: 3200, thick: 4, label: '型ガラス 4mm (F4K)' },
