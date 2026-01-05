@@ -8,6 +8,7 @@ export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
     6: 600,
     8: 800,
     10: 1000,
+    11: 1200,
     12: 1200,
 };
 
@@ -81,9 +82,9 @@ export const SHAPE_MULTIPLIERS: Record<import('./types').ShapeType, number> = {
     'HEXAGON': 2.0,
     'TENMARU_2': 3.0,
     'OCTAGON': 3.0,
-    'CIRCLE': 4.0,
-    'ELLIPSE': 5.0,
-    'FAN': 5.0,
+    'CIRCLE': 3.5,
+    'ELLIPSE': 4.5,
+    'FAN': 4.5,
     'IRREGULAR': 8.0,
     'COMPLEX': 10.0
 };
@@ -96,9 +97,9 @@ export const SHAPE_LABELS: Record<import('./types').ShapeType, string> = {
     'HEXAGON': '六角形 (2倍)',
     'TENMARU_2': '両天丸 (3倍)',
     'OCTAGON': '八角形 (3倍)',
-    'CIRCLE': '円形（丸） (4倍)',
-    'ELLIPSE': '楕円 (5倍)',
-    'FAN': '扇形 (5倍)',
+    'CIRCLE': '円形（丸） (3.5倍)',
+    'ELLIPSE': '楕円 (4.5倍)',
+    'FAN': '扇形 (4.5倍)',
     'IRREGULAR': '異形 (8倍)',
     'COMPLEX': '複雑異形 (10倍)'
 };

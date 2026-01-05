@@ -101,7 +101,7 @@ const runTests = () => {
             expected: 180
         },
         {
-            name: 'Test Case 17: Circle (4x)',
+            name: 'Test Case 17: Circle (3.5x)',
             input: {
                 dimensions: { width: 500, height: 500, thickness: 5 } as GlassDimensions,
                 unitPrice: 0,
@@ -116,7 +116,7 @@ const runTests = () => {
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
             },
-            expected: 4400
+            expected: 3850
         },
         {
             name: 'Test Case 18: Octagon (3x)',
