@@ -16,14 +16,21 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "JM5": { price: 5600, thick: 5, label: '国産ミラー 5mm (JM5)' },
     "EPM5": { price: 8000, thick: 5, label: '防湿ミラー 5mm (EPM5)' },
     "MS5": { price: 21600, thick: 5, label: '高透過ミラー 5mm (MS5)' },
+    // カラーミラー
+    "BM5": { price: 8800, thick: 5, label: 'ブロンズミラー 5mm (BM5)' },
+    "GM5": { price: 8800, thick: 5, label: 'グレーミラー 5mm (GM5)' },
+    "NBM5": { price: 19200, thick: 5, label: 'ニューブラックミラー 5mm (NBM5)' },
+    "SBM5": { price: 16000, thick: 5, label: 'セピアブラウンミラー 5mm (SBM5)' },
+    "GYM5": { price: 16000, thick: 5, label: 'ゴールドイエローミラー 5mm (GYM5)' },
     // 型・スリ・その他
     "F4K": { price: 3200, thick: 4, label: '型ガラス 4mm (F4K)' },
     "F6K": { price: 5600, thick: 6, label: '型ガラス 6mm (F6K)' },
     "G3": { price: 5600, thick: 3, label: 'スリガラス 3mm (G3)' },
     "G5": { price: 8000, thick: 5, label: 'スリガラス 5mm (G5)' },
     "OPT5": { price: 15200, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
-    "CM_NB": { price: 19200, thick: 5, label: 'ブロンズミラー 5mm (CM-NB)' },
-    "CM_BZ": { price: 5600, thick: 5, label: 'ブロンズガラス 5mm (CM-BZ)' } // Spec says CM_BZ price 5600, verify code/name mapping if possible but sticking to provided DB
+    "OPT6": { price: 16800, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
+    "OPT8": { price: 23200, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
+    "OPT10": { price: 29600, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
 };
 
 // ① 加工単価マスタ（円/ｍ）※外周メートルあたりの単価
