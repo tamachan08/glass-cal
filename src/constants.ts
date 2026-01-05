@@ -8,7 +8,6 @@ export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
     6: 600,
     8: 800,
     10: 1000,
-    11: 1200,
     12: 1200,
 };
 
