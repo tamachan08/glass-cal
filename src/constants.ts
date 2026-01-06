@@ -31,6 +31,23 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "OPT6": { price: 16800, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
     "OPT8": { price: 23200, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
     "OPT10": { price: 29600, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
+    // タペガラス (フロスト/タペストリー)
+    "FTA5": { price: 15200, thick: 5, label: 'タペガラス 5mm (FTA5)' },
+    "FTA6": { price: 18400, thick: 6, label: 'タペガラス 6mm (FTA6)' },
+    "FTA8": { price: 23200, thick: 8, label: 'タペガラス 8mm (FTA8)' },
+    "FTA10": { price: 29600, thick: 10, label: 'タペガラス 10mm (FTA10)' },
+    // タペミラー
+    "FTAM5": { price: 32000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
+    // 色ガラス・その他
+    "GL_BZ": { price: 5600, thick: 5, label: '色ガラス ブロンズ 5mm (GL-BZ)' },
+    "GL_DGY": { price: 19200, thick: 5, label: '色ガラス ダークグレー 5mm (GL-DGY)' },
+    "GL_GY": { price: 19200, thick: 5, label: '色ガラス グレー 5mm (GL-GY)' },
+    "CM_DD": { price: 24000, thick: 5, label: 'ディープダークミラー 5mm (CM-DD)' },
+    "LACO": { price: 24000, thick: 5, label: 'ラコベル 5mm (LACO)' },
+    "CM_REJ": { price: 24000, thick: 5, label: 'レジャンヌ 5mm (CM-REJ)' },
+    "CM_CIN": { price: 35200, thick: 5, label: 'シンディエラ 5mm (CM-CIN)' },
+    "CM_BLA": { price: 35200, thick: 5, label: 'ブランネジュ 5mm (CM-BLA)' },
+    "LUNA": { price: 44800, thick: 5, label: 'ルナランプ 5mm (LUNA)' },
 };
 
 // ① 加工単価マスタ（円/ｍ）※外周メートルあたりの単価
