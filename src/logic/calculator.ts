@@ -60,7 +60,7 @@ export const calculateEdgeFee = (
     // Apply shape multiplier
     let finalMultiplier = SHAPE_MULTIPLIERS[shape] || 1.0;
 
-    // "Further add 2.5x" logic for Curved Chamfer
+    // "Further multiply by 2.5x" logic for Curved Chamfer
     const curvedShapes: ShapeType[] = ['CIRCLE', 'ELLIPSE', 'FAN', 'IRREGULAR', 'COMPLEX'];
     // Check if ANY enabled side is chamfer
     const hasChamfer = (
@@ -71,18 +71,10 @@ export const calculateEdgeFee = (
     );
 
     if (curvedShapes.includes(shape) && hasChamfer) {
-        finalMultiplier += 2.5; // Interpret "2.5倍加算" as adding 2.5 to the multiplier (e.g. 3.5 -> 6.0)
-        // Wait, earlier I thought "Multiply by 2.5" (8.75x).
-        // Let's reconsider "加算" (Add). If I have a multiplier of 3.5. "Add 2.5". It becomes 6.0.
-        // This is a "Surcharge of 2.5x base fee". 
-        // If I assume "Multiply by 2.5", it becomes 8.75.
-        // Usually "Curved Chamfer" is EXTREMELY expensive. But 8.75x is very high.
-        // I will stick to "Add 2.5" (Multiplier += 2.5) as the most literal interpretation of "2.5倍加算".
-        // Example: Base 1000. Shape(3.5) -> 3500. Add 2.5x(2500) -> 6000.
-        // If Multiply: 3500 * 2.5 = 8750.
-        // I will go with ADDITION (+2.5).
+        finalMultiplier *= 2.5; // Changed from += 2.5 to *= 2.5 based on user feedback
     }
 
+    // Round up to nearest 10 yen
     return Math.ceil((totalEdgeFee * finalMultiplier) / 10) * 10;
 };
 

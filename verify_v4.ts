@@ -89,10 +89,10 @@ const runTests = () => {
             // Logic:
             // Length: 1.4m.
             // Unit Price: 900 (Chamfer)
-            // Shape Mult: 3.5 (Circle) + 2.5 (Surcharge) = 6.0
-            // Fee: 1.4 * 900 * 6.0 = 1260 * 6 = 7560.
-            // Rounding: 7560 -> 7560.
-            expected: 7560
+            // Shape Mult: 3.5 (Circle) * 2.5 (Surcharge) = 8.75
+            // Fee: 1.4 * 900 * 8.75 = 1260 * 8.75 = 11025.
+            // Rounding: 11025 -> 11030.
+            expected: 11030
         }
     ];
 
