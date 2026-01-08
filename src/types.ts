@@ -14,10 +14,12 @@ export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko
 
 export type ChamferWidth = '12' | '18' | '24' | '25_plus';
 
+export type EdgeFinish = 'migaki' | 'arazuri';
+
 export interface SideConfig {
   enabled: boolean;
   type: ProcessingType;
-  finish: 'migaki' | 'arazuri';
+  finish: EdgeFinish;
   chamferWidth?: ChamferWidth;
   polishChamferEdge?: boolean;
 }
