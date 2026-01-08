@@ -90,9 +90,72 @@ const runTests = () => {
             // Length: 1.4m.
             // Unit Price: 900 (Chamfer)
             // Shape Mult: 3.5 (Circle) * 2.5 (Surcharge) = 8.75
-            // Fee: 1.4 * 900 * 8.75 = 1260 * 8.75 = 11025.
-            // Rounding: 11025 -> 11030.
+            // NEW Logic in calculator.ts applies shape per side.
+            // Check rounding diff.
+            // Top(0.3m): ceil(0.3*900*8.75) = ceil(2362.5) = 2363.
+            // Left(0.4m): ceil(0.4*900*8.75) = ceil(3150) = 3150.
+            // Total: 2363*2 + 3150*2 = 4726 + 6300 = 11026.
+            // Rounding: 11026 -> 11030.
             expected: 11030
+        },
+        {
+            name: 'V4.0 Itomen Thunder (Curve - Circle)',
+            input: {
+                dimensions: { width: 300, height: 400, thickness: 5 } as GlassDimensions,
+                unitPrice: 0,
+                // Thunder on all sides
+                edge: {
+                    top: sc(true, 'thunder'), bottom: sc(true, 'thunder'),
+                    left: sc(true, 'thunder'), right: sc(true, 'thunder')
+                } as EdgeProcessing,
+                shape: 'CIRCLE', // 3.5x
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: { notch: [], eguri: [], square_hole: [] }
+                } as ProcessingOptions
+            },
+            // Logic:
+            // Rough Price(5mm): 350.
+            // Shape: 3.5x.
+            // Perim 1.4m.
+            // Formula: (Rough * Perim * Shape) / 2
+            // Side Top(0.3m): (0.3 * 350 * 3.5) / 2 = 183.75 -> ceil 184
+            // Side Left(0.4m): (0.4 * 350 * 3.5) / 2 = 245.0 -> ceil 245
+            // Total: 184*2 + 245*2 = 368 + 490 = 858.
+            // Rounding: 858 -> 860.
+            expected: 860
+        },
+        {
+            name: 'V4.0 Itomen Thunder (Rect - 10% Material)',
+            input: {
+                dimensions: { width: 100, height: 100, thickness: 5 } as GlassDimensions,
+                unitPrice: 2900,
+                // Thunder on all sides
+                edge: {
+                    top: sc(true, 'thunder'), bottom: sc(true, 'thunder'),
+                    left: sc(true, 'thunder'), right: sc(true, 'thunder')
+                } as EdgeProcessing,
+                shape: 'RECT',
+                options: {
+                    rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
+                    holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
+                    cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    hikiteCount: 0,
+                    complexProcessing: { notch: [], eguri: [], square_hole: [] }
+                } as ProcessingOptions
+            },
+            // Logic:
+            // Material Cost: 0.2m2 * 2900 = 580.
+            // Target Fee: 10% = 58.
+            // Side allocation: Perim 0.4m. Side 0.1m (25%).
+            // Side Fee = 58 * 0.25 = 14.5 -> ceil 15.
+            // Total Fee = Edge(60) + Material(580) = 640.
+            expected: 640
         }
     ];
 
@@ -123,6 +186,9 @@ const runTests = () => {
 
     if (failed === 0) log(`\nALL V4.0 TESTS PASSED`);
     else log(`\nSOME TESTS FAILED`);
+
+    // Write log to file
+    fs.writeFileSync('verify_log.txt', output);
 
     if (failed === 0) process.exit(0);
     else process.exit(1);

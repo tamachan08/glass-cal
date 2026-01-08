@@ -2,40 +2,22 @@ export type GlassThickness = 3 | 4 | 5 | 6 | 8 | 10 | 12;
 
 export type GlassMode = 'standard' | 'manual';
 
-export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko';
-
-export type ChamferWidth = '12' | '18' | '24' | '25_plus'; // ~12mm, ~18mm, ~24mm, 25mm+
-
 export type ShapeType =
   | 'RECT'
-  | 'CORNER_1'
-  | 'CORNER_2'
-  | 'TENMARU_1'
-  | 'HEXAGON'
-  | 'TENMARU_2'
-  | 'OCTAGON'
-  | 'CIRCLE'
-  | 'ELLIPSE'
-  | 'FAN'
-  | 'IRREGULAR'
-  | 'COMPLEX';
+  | 'CORNER_1' | 'CORNER_2'
+  | 'TENMARU_1' | 'TENMARU_2'
+  | 'CIRCLE' | 'ELLIPSE' | 'FAN'
+  | 'HEXAGON' | 'OCTAGON'
+  | 'IRREGULAR' | 'COMPLEX';
 
-export type OptionType = 'R_processing' | 'hole_processing' | 'special_processing';
+export type ProcessingType = 'flat_polish' | 'chamfer' | 'suriawase' | 'kamaboko' | 'thunder';
 
-export type ComplexProcessingType = 'notch' | 'eguri' | 'square_hole';
-
-export interface GlassDimensions {
-  width: number; // mm
-  height: number; // mm
-  thickness: GlassThickness;
-}
-
-export type EdgeFinish = 'migaki' | 'arazuri'; // Polished (Default) vs Rough (0.9x)
+export type ChamferWidth = '12' | '18' | '24' | '25_plus';
 
 export interface SideConfig {
   enabled: boolean;
   type: ProcessingType;
-  finish: EdgeFinish;
+  finish: 'migaki' | 'arazuri';
   chamferWidth?: ChamferWidth;
   polishChamferEdge?: boolean;
 }
@@ -47,45 +29,65 @@ export interface EdgeProcessing {
   right: SideConfig;
 }
 
+export interface RProcessingOptions {
+  r15: number;
+  r30: number;
+  r50: number;
+  r100: number;
+  r200: number;
+  r300: number;
+}
+
+export interface CornerCutOptions {
+  c30: number;
+  c50: number;
+  c100: number;
+  c200: number;
+}
+
+export interface HoleProcessingOptions {
+  d5_15: number;
+  d16_30: number;
+  d31_50: number;
+  d51_100: number;
+  d101_plus: number;
+}
+
+export interface SpecialProcessingOptions {
+  outletSmall: number;
+  outletLarge: number;
+  ventilator: number;
+}
+
+export interface ComplexItem {
+  totalLength: number; // Total perimeter of this feature in mm
+  count: number;       // Number of instances
+}
+
+export interface ComplexProcessingOptions {
+  notch: ComplexItem[];       // Kirikaki
+  eguri: ComplexItem[];       // Eguri
+  square_hole: ComplexItem[]; // Square Hole (Ana)
+}
+
 export interface ProcessingOptions {
-  rProcessing: {
-    r15: number;
-    r30: number;
-    r50: number;
-    r100: number;
-    r200: number;
-    r300: number;
-  };
-  cornerCutProcessing: {
-    c30: number;
-    c50: number;
-    c100: number;
-    c200: number;
-  };
-  holeProcessing: {
-    d5_15: number;
-    d16_30: number;
-    d31_50: number;
-    d51_100: number;
-    d101_plus: number;
-  };
-  specialProcessing: {
-    outletSmall: number;
-    outletLarge: number;
-    ventilator: number;
-    hikite?: number; // Kept for backward compat if needed, but using hikiteCount
-  };
-  hikiteCount: number; // Finger Pull
-  complexProcessing?: {
-    notch?: Array<{ totalLength: number; count: number }>;
-    eguri?: Array<{ totalLength: number; count: number }>;
-    square_hole?: Array<{ totalLength: number; count: number }>;
-  };
+  rProcessing: RProcessingOptions;
+  cornerCutProcessing: CornerCutOptions;
+  holeProcessing: HoleProcessingOptions;
+  specialProcessing: SpecialProcessingOptions;
+  hikiteCount: number;
+  complexProcessing: ComplexProcessingOptions;
+}
+
+export interface GlassDimensions {
+  width: number;
+  height: number;
+  thickness: GlassThickness;
 }
 
 export interface CalculationResult {
-  areaM2: number; // square meters
-  perimeter: number; // meters
+  areaM2: number;
+  perimeter: number;
   edgeFee: number;
   optionFee: number;
   glassCost: number;

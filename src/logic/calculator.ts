@@ -1,5 +1,5 @@
 import type { GlassDimensions, EdgeProcessing, ProcessingOptions, CalculationResult, ShapeType } from '../types';
-import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS } from '../constants';
+import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS, ROUGH_PRICES } from '../constants';
 
 export const calculatePerimeter = (
     widthMm: number,
@@ -20,11 +20,34 @@ export const calculatePerimeter = (
     return Math.ceil(length / 10) / 100;
 };
 
+export const calculateGlassCost = (
+    widthMm: number,
+    heightMm: number,
+    unitPrice: number
+): number => {
+    // Area in square meters
+    const area = (widthMm * heightMm) / 1_000_000;
+    // Minimum area rule: 0.2m2
+    const calcArea = Math.max(area, 0.2);
+    const rawCost = calcArea * unitPrice;
+    // Round up to nearest 10 yen
+    return Math.ceil(rawCost / 10) * 10;
+};
+
 export const calculateEdgeFee = (
     dimensions: GlassDimensions,
     edge: EdgeProcessing,
-    shape: ShapeType
+    shape: ShapeType,
+    unitPrice: number = 0
 ): number => {
+    const totalPerimMm = dimensions.width * 2 + dimensions.height * 2;
+    // Calculate raw material cost for Case B usage
+    // Note: The prompt says "Material Cost * 0.1". 
+    // Usually uses the standard material calculation (min 0.2m2).
+    const materialCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
+
+    const curvedShapes: ShapeType[] = ['TENMARU_1', 'TENMARU_2', 'CIRCLE', 'ELLIPSE', 'FAN', 'IRREGULAR', 'COMPLEX'];
+
     const calcSideFee = (side: keyof EdgeProcessing, lengthMm: number): number => {
         const config = edge[side];
         if (!config.enabled) return 0;
@@ -32,50 +55,121 @@ export const calculateEdgeFee = (
         const lengthMeters = Math.ceil(lengthMm / 10) / 100;
         const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
 
-        let unitPrice = 0;
+        // Shape Multiplier for this specific edge calc
+        let shapeMult = SHAPE_MULTIPLIERS[shape] || 1.0;
+
+        if (config.type === 'thunder') {
+            // Thunder Logic
+            if (curvedShapes.includes(shape)) {
+                // Case A: Curved/Irregular -> (Rough Grind * Perimeter * Shape) / 2
+                const roughPrice = ROUGH_PRICES[dimensions.thickness] || 350; // default 350 if missing
+                // Logic: (Unit * Length * Shape) / 2
+                const fee = (lengthMeters * roughPrice * shapeMult) / 2;
+                return Math.ceil(fee);
+            } else {
+                // Case B: Rect/Normal -> Material Cost * 10% (Proportional to side)
+                // Fee = (MaterialCost * 0.1) * (Processed Length / Total Perimeter)
+                // Use actual lengthMm for proportion
+                const proportion = lengthMm / totalPerimMm;
+                const fee = (materialCost * 0.1) * proportion;
+                return Math.ceil(fee);
+            }
+        }
+
+        let unitPriceVal = 0;
 
         if (config.type === 'flat_polish') {
-            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness];
+            unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness];
         } else if (config.type === 'chamfer') {
             if (!config.chamferWidth) return 0;
             const prices = CHAMFER_PRICES[config.chamferWidth];
-            unitPrice = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+            unitPriceVal = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
         } else if (config.type === 'suriawase') {
             // Suriawase = 3x Flat Polish
-            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
+            unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
         } else if (config.type === 'kamaboko') {
             // Kamaboko = 2x Flat Polish
-            unitPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 2;
+            unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness] * 2;
         }
 
-        return Math.ceil(lengthMeters * unitPrice * finishMultiplier);
+        return Math.ceil(lengthMeters * unitPriceVal * finishMultiplier * shapeMult);
     };
 
     let totalEdgeFee = 0;
-    totalEdgeFee += calcSideFee('top', dimensions.width);
-    totalEdgeFee += calcSideFee('bottom', dimensions.width);
-    totalEdgeFee += calcSideFee('left', dimensions.height);
-    totalEdgeFee += calcSideFee('right', dimensions.height);
 
-    // Apply shape multiplier
-    let finalMultiplier = SHAPE_MULTIPLIERS[shape] || 1.0;
+    // Note: shapeMult is applied PER SIDE inside calcSideFee for standard types too?
+    // Previously: totalEdgeFee * shapeMult was done at the END.
+    // To mix types properly (e.g. Thunder + Polish), we must apply shapeMult inside standard types logic too if we move Thunder inside.
+    // However, the previous logic calculated total then applied shapeMult.
+    // Re-implementing standard logic to apply shapeMult inside calcSideFee for consistent behavior with Thunder.
+    // Wait, let's verify if `calcSideFee` previously applied shapeMult.
+    // NO. It didn't. 
+    // The previous logic was: `return Math.ceil((totalEdgeFee * finalMultiplier) / 10) * 10;`.
+    // So Shape Multiplier applied to the SUM of all edge fees.
 
-    // "Further multiply by 2.5x" logic for Curved Chamfer
-    const curvedShapes: ShapeType[] = ['CIRCLE', 'ELLIPSE', 'FAN', 'IRREGULAR', 'COMPLEX'];
-    // Check if ANY enabled side is chamfer
-    const hasChamfer = (
-        (edge.top.enabled && edge.top.type === 'chamfer') ||
-        (edge.bottom.enabled && edge.bottom.type === 'chamfer') ||
-        (edge.left.enabled && edge.left.type === 'chamfer') ||
-        (edge.right.enabled && edge.right.type === 'chamfer')
-    );
+    // BUT for Thunder:
+    // Case A: `(Rough * Perim * Shape) / 2`. Shape is part of it.
+    // Case B: `Material * 0.1`. Shape is NOT part of it (implicitly part of material? No, material is Rect).
+    // Prompt says "Branches: A (Curved) -> (Rough * Perim * Shape)/2". "B (Rect) -> Material * 0.1".
 
-    if (curvedShapes.includes(shape) && hasChamfer) {
-        finalMultiplier *= 2.5; // Changed from += 2.5 to *= 2.5 based on user feedback
-    }
+    // If I move ShapeMult calculation inside `calcSideFee` for Standard types, it behaves the same as (Sum * ShapeMult).
+    // EXCEPT for rounding. 
+    // Previously: Sum -> Apply Mult -> Round.
+    // Now: Apply Mult -> Sum.
+    // Mathematically `Sum(x*s) = s*Sum(x)`. So it's equivalent.
+    // Result will be fine.
 
-    // Round up to nearest 10 yen
-    return Math.ceil((totalEdgeFee * finalMultiplier) / 10) * 10;
+    // So I will apply `shapeMult` inside `calcSideFee` for standard types too.
+    // EXCEPT for the "Curved Chamfer Surcharge".
+    // That surcharge was `finalMultiplier *= 2.5`.
+    // That needs to be applied to CHAMFER edges only?
+    // "Rule: If Shape is Curved AND processing is Chamfer, apply 2.5x to Shape Factor."
+    // So for Chamfer sides, `shapeMult` becomes `shapeMult * 2.5`.
+    // I can handle this inside `calcSideFee`.
+
+    const calculateStandardSide = (side: keyof EdgeProcessing, lengthMm: number): number => {
+        const config = edge[side];
+        if (!config.enabled) return 0;
+
+        if (config.type === 'thunder') {
+            // Use logic above
+            return calcSideFee(side, lengthMm);
+        }
+
+        const lengthMeters = Math.ceil(lengthMm / 10) / 100;
+        const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+
+        let uPrice = 0;
+        if (config.type === 'flat_polish') {
+            uPrice = FLAT_POLISH_PRICES[dimensions.thickness];
+        } else if (config.type === 'chamfer') {
+            if (!config.chamferWidth) return 0;
+            const prices = CHAMFER_PRICES[config.chamferWidth];
+            uPrice = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+        } else if (config.type === 'suriawase') {
+            uPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
+        } else if (config.type === 'kamaboko') {
+            uPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 2;
+        }
+
+        let sMult = SHAPE_MULTIPLIERS[shape] || 1.0;
+
+        // Curved Chamfer Surcharge
+        if (curvedShapes.includes(shape) && config.type === 'chamfer') {
+            sMult *= 2.5;
+        }
+
+        return Math.ceil(lengthMeters * uPrice * finishMultiplier * sMult);
+    };
+
+    // Refactored main loop
+    totalEdgeFee += calculateStandardSide('top', dimensions.width);
+    totalEdgeFee += calculateStandardSide('bottom', dimensions.width);
+    totalEdgeFee += calculateStandardSide('left', dimensions.height);
+    totalEdgeFee += calculateStandardSide('right', dimensions.height);
+
+    // Round up total to nearest 10 yen
+    return Math.ceil(totalEdgeFee / 10) * 10;
 };
 
 export const calculateOptionFee = (
@@ -127,8 +221,7 @@ export const calculateOptionFee = (
         baseRunningTotal += options.hikiteCount * hikiteUnitPrice;
     }
 
-    // Complex Processing (Notch/Eguri/Square Hole)
-    // Now supporting arrays of items
+    // Complex Processing
     if (options.complexProcessing) {
         const calcComplexPrice = (type: 'notch' | 'eguri' | 'square_hole', length: number): number => {
             if (length <= 0) return 0;
@@ -144,7 +237,6 @@ export const calculateOptionFee = (
             return 0;
         };
 
-        // Notch
         if (options.complexProcessing.notch && Array.isArray(options.complexProcessing.notch)) {
             options.complexProcessing.notch.forEach(item => {
                 if (item.count > 0 && item.totalLength > 0) {
@@ -152,8 +244,6 @@ export const calculateOptionFee = (
                 }
             });
         }
-
-        // Eguri
         if (options.complexProcessing.eguri && Array.isArray(options.complexProcessing.eguri)) {
             options.complexProcessing.eguri.forEach(item => {
                 if (item.count > 0 && item.totalLength > 0) {
@@ -161,8 +251,6 @@ export const calculateOptionFee = (
                 }
             });
         }
-
-        // Square Hole
         if (options.complexProcessing.square_hole && Array.isArray(options.complexProcessing.square_hole)) {
             options.complexProcessing.square_hole.forEach(item => {
                 if (item.count > 0 && item.totalLength > 0) {
@@ -175,20 +263,6 @@ export const calculateOptionFee = (
     return Math.ceil(baseRunningTotal * multiplier);
 };
 
-export const calculateGlassCost = (
-    widthMm: number,
-    heightMm: number,
-    unitPrice: number
-): number => {
-    // Area in square meters
-    const area = (widthMm * heightMm) / 1_000_000;
-    // Minimum area rule: 0.2m2
-    const calcArea = Math.max(area, 0.2);
-    const rawCost = calcArea * unitPrice;
-    // Round up to nearest 10 yen
-    return Math.ceil(rawCost / 10) * 10;
-};
-
 export const calculateTotal = (
     dimensions: GlassDimensions,
     edge: EdgeProcessing,
@@ -197,7 +271,7 @@ export const calculateTotal = (
     unitPrice: number
 ): CalculationResult => {
     const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge);
-    const edgeFee = calculateEdgeFee(dimensions, edge, shape);
+    const edgeFee = calculateEdgeFee(dimensions, edge, shape, unitPrice);
     const optionFee = calculateOptionFee(dimensions, options);
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
 

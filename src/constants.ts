@@ -62,6 +62,17 @@ export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
     12: 1200,
 };
 
+// [追加マスタ] 荒ズリ単価 (円/m) ※糸面サンダーの異形計算で使用
+export const ROUGH_PRICES: Record<GlassThickness, number> = {
+    3: 300,
+    4: 350,
+    5: 350,
+    6: 450,
+    8: 600,
+    10: 750,
+    12: 900
+};
+
 // ② 面取り特別単価（円/ｍ）
 // Note: Specs say "Flat Polish (thread)" prices are per thickness, but Chamfer prices are per width regardless of thickness.
 // Format: [ChamferWidth][Polish(true/false)]

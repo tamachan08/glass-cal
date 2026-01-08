@@ -10,7 +10,8 @@ const PROCESS_LABELS: Record<ProcessingType, string> = {
     'flat_polish': '平磨き（糸面）',
     'chamfer': '面取り加工',
     'suriawase': 'スリアワセ (磨きx3)',
-    'kamaboko': 'かまぼこ磨 (磨きx2)'
+    'kamaboko': 'かまぼこ磨 (磨きx2)',
+    'thunder': '糸面サンダー'
 };
 
 export const EdgeSelector: React.FC<EdgeSelectorProps> = ({ edge, onChange }) => {
@@ -154,6 +155,7 @@ export const EdgeSelector: React.FC<EdgeSelectorProps> = ({ edge, onChange }) =>
                     <button onClick={() => applyToAll('flat_polish', 'arazuri')}>全て平磨き(荒摺り)</button>
                     <button onClick={() => applyToAll('suriawase', 'migaki')}>全てスリアワセ</button>
                     <button onClick={() => applyToAll('kamaboko', 'migaki')}>全てかまぼこ磨</button>
+                    <button onClick={() => applyToAll('thunder', 'arazuri')}>全て糸面サンダー</button>
                 </div>
             </div>
 
