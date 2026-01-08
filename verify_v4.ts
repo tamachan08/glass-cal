@@ -43,7 +43,7 @@ const runTests = () => {
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
             },
-            expected: 800 // Material: 0.2 * 2900 = 580. Edge: 0.4 * 550 = 220. Total 800.
+            expected: 780 // Material: 0.2 * 2900 = 580. Edge: 0.4 * 500 = 200. Total 780.
         },
         {
             name: 'V4.0 Edge Fee Rounding Check (3.5x)',
@@ -61,10 +61,10 @@ const runTests = () => {
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
             },
-            // Base Edge: 1.4m * 550 = 770.
-            // Shape 3.5x: 770 * 3.5 = 2695.
-            // Expected Rounding: 2695 -> 2700.
-            expected: 2700
+            // Base Edge: 1.4m * 500 = 700.
+            // Shape 3.5x: 700 * 3.5 = 2450.
+            // Expected Rounding: 2450 -> 2450.
+            expected: 2450
         },
         {
             name: 'V4.0 Curved Chamfer Surcharge (Circle + Chamfer)',

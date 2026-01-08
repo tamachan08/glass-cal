@@ -53,9 +53,9 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
 // ① 加工単価マスタ（円/ｍ）※外周メートルあたりの単価
 // 厚み: 平磨き(糸面)
 export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
-    3: 450,
-    4: 550, // Added for V4.0
-    5: 550,
+    3: 400,
+    4: 500, // Added for V4.0
+    5: 500,
     6: 600,
     8: 800,
     10: 1000,
