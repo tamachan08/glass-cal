@@ -143,6 +143,8 @@ function App() {
         onUnitPriceChange={setUnitPrice}
       />
 
+      <ResultCard result={result} />
+
       <ShapeSelector
         shape={shape}
         onChange={setShape}
@@ -158,7 +160,6 @@ function App() {
         onChange={setOptions}
       />
 
-      <ResultCard result={result} />
       <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
         v2.0 (Shape Multipliers)
       </footer>
