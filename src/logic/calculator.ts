@@ -38,7 +38,8 @@ export const calculateEdgeFee = (
     dimensions: GlassDimensions,
     edge: EdgeProcessing,
     shape: ShapeType,
-    unitPrice: number = 0
+    unitPrice: number = 0,
+    isExpress: boolean = false
 ): number => {
     const totalPerimMm = dimensions.width * 2 + dimensions.height * 2;
     // Calculate raw material cost for Case B usage
@@ -92,40 +93,15 @@ export const calculateEdgeFee = (
             unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness] * 2;
         }
 
-        return Math.ceil(lengthMeters * unitPriceVal * finishMultiplier * shapeMult);
+        let sMult = SHAPE_MULTIPLIERS[shape] || 1.0;
+
+        // Curved Chamfer Surcharge
+        if (curvedShapes.includes(shape) && config.type === 'chamfer') {
+            sMult *= 2.5;
+        }
+
+        return Math.ceil(lengthMeters * unitPriceVal * finishMultiplier * sMult);
     };
-
-    let totalEdgeFee = 0;
-
-    // Note: shapeMult is applied PER SIDE inside calcSideFee for standard types too?
-    // Previously: totalEdgeFee * shapeMult was done at the END.
-    // To mix types properly (e.g. Thunder + Polish), we must apply shapeMult inside standard types logic too if we move Thunder inside.
-    // However, the previous logic calculated total then applied shapeMult.
-    // Re-implementing standard logic to apply shapeMult inside calcSideFee for consistent behavior with Thunder.
-    // Wait, let's verify if `calcSideFee` previously applied shapeMult.
-    // NO. It didn't. 
-    // The previous logic was: `return Math.ceil((totalEdgeFee * finalMultiplier) / 10) * 10;`.
-    // So Shape Multiplier applied to the SUM of all edge fees.
-
-    // BUT for Thunder:
-    // Case A: `(Rough * Perim * Shape) / 2`. Shape is part of it.
-    // Case B: `Material * 0.1`. Shape is NOT part of it (implicitly part of material? No, material is Rect).
-    // Prompt says "Branches: A (Curved) -> (Rough * Perim * Shape)/2". "B (Rect) -> Material * 0.1".
-
-    // If I move ShapeMult calculation inside `calcSideFee` for Standard types, it behaves the same as (Sum * ShapeMult).
-    // EXCEPT for rounding. 
-    // Previously: Sum -> Apply Mult -> Round.
-    // Now: Apply Mult -> Sum.
-    // Mathematically `Sum(x*s) = s*Sum(x)`. So it's equivalent.
-    // Result will be fine.
-
-    // So I will apply `shapeMult` inside `calcSideFee` for standard types too.
-    // EXCEPT for the "Curved Chamfer Surcharge".
-    // That surcharge was `finalMultiplier *= 2.5`.
-    // That needs to be applied to CHAMFER edges only?
-    // "Rule: If Shape is Curved AND processing is Chamfer, apply 2.5x to Shape Factor."
-    // So for Chamfer sides, `shapeMult` becomes `shapeMult * 2.5`.
-    // I can handle this inside `calcSideFee`.
 
     const calculateStandardSide = (side: keyof EdgeProcessing, lengthMm: number): number => {
         const config = edge[side];
@@ -163,10 +139,16 @@ export const calculateEdgeFee = (
     };
 
     // Refactored main loop
+    let totalEdgeFee = 0;
     totalEdgeFee += calculateStandardSide('top', dimensions.width);
     totalEdgeFee += calculateStandardSide('bottom', dimensions.width);
     totalEdgeFee += calculateStandardSide('left', dimensions.height);
     totalEdgeFee += calculateStandardSide('right', dimensions.height);
+
+    // Apply Express Surcharge (1.2x)
+    if (isExpress) {
+        totalEdgeFee *= 1.2;
+    }
 
     // Round up total to nearest 10 yen
     return Math.ceil(totalEdgeFee / 10) * 10;
@@ -268,10 +250,11 @@ export const calculateTotal = (
     edge: EdgeProcessing,
     shape: ShapeType,
     options: ProcessingOptions,
-    unitPrice: number
+    unitPrice: number,
+    isExpress: boolean = false
 ): CalculationResult => {
     const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge);
-    const edgeFee = calculateEdgeFee(dimensions, edge, shape, unitPrice);
+    const edgeFee = calculateEdgeFee(dimensions, edge, shape, unitPrice, isExpress);
     const optionFee = calculateOptionFee(dimensions, options);
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
 

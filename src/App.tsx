@@ -47,6 +47,9 @@ function App() {
     }
   });
 
+  // Express Delivery State
+  const [isExpress, setIsExpress] = useState<boolean>(false);
+
   const handleReset = () => {
     if (!window.confirm('入力内容を全てリセットしますか？')) return;
 
@@ -73,6 +76,7 @@ function App() {
         square_hole: Array(4).fill({ totalLength: 0, count: 0 })
       }
     });
+    setIsExpress(false);
   };
 
   const handleModeChange = (newMode: GlassMode) => {
@@ -103,8 +107,8 @@ function App() {
   };
 
   const result = useMemo(() => {
-    return calculateTotal(dimensions, edge, shape, options, unitPrice);
-  }, [dimensions, edge, shape, options, unitPrice]);
+    return calculateTotal(dimensions, edge, shape, options, unitPrice, isExpress);
+  }, [dimensions, edge, shape, options, unitPrice, isExpress]);
 
   return (
     <div className="app-container">
@@ -143,7 +147,12 @@ function App() {
         onUnitPriceChange={setUnitPrice}
       />
 
-      <ResultCard result={result} />
+      {/* Result Card with Express Option */}
+      <ResultCard
+        result={result}
+        isExpress={isExpress}
+        onExpressChange={setIsExpress}
+      />
 
       <ShapeSelector
         shape={shape}
