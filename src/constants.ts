@@ -1,6 +1,6 @@
 import type { GlassThickness, ChamferWidth } from './types';
 
-// V4.0 Material DB (Updated 2026-01-14: 13.5x Multiplier)
+// V4.0 Material DB (Updated 2026-01-14: 13.5x Multiplier & Additions)
 export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness; label: string }> = {
     // --- 透明フロートガラス ---
     "FL3": { price: 2000, thick: 3, label: '透明フロート 3mm (FL3)' },
@@ -15,7 +15,7 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "CM5": { price: 3400, thick: 5, label: 'クリアミラー 5mm (CM5)' }, // 主力
     "M6": { price: 8100, thick: 6, label: 'ミラー 6mm (M6)' },
     "JM5": { price: 4700, thick: 5, label: '国産ミラー 5mm (JM5)' },
-    "EPM5": { price: 6800, thick: 5, label: 'エポキシミラー 5mm (EPM5)' }, // Added
+    "EPM5": { price: 6800, thick: 5, label: 'エポキシミラー 5mm (EPM5)' },
     "MS5": { price: 18200, thick: 5, label: '高透過ミラー 5mm (MS5)' },
 
     // --- 型・スリガラス ---
@@ -25,7 +25,9 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "G5": { price: 6800, thick: 5, label: 'スリガラス 5mm (G5)' },
 
     // --- 高透過・タペガラス (旧FTA) ---
+    "OPT3": { price: 9500, thick: 3, label: '高透過ガラス 3mm (OPT3)' }, // Added
     "OPT5": { price: 12800, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
+    "OPT6": { price: 14200, thick: 6, label: '高透過ガラス 6mm (OPT6)' }, // Updated
     "OPT8": { price: 19600, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
     "OPT10": { price: 25000, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
 
