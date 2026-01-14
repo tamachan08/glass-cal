@@ -25,9 +25,9 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "G5": { price: 6800, thick: 5, label: 'スリガラス 5mm (G5)' },
 
     // --- 高透過・タペガラス (旧FTA) ---
-    "OPT3": { price: 9500, thick: 3, label: '高透過ガラス 3mm (OPT3)' }, // Added
+    "OPT3": { price: 9500, thick: 3, label: '高透過ガラス 3mm (OPT3)' },
     "OPT5": { price: 12800, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
-    "OPT6": { price: 14200, thick: 6, label: '高透過ガラス 6mm (OPT6)' }, // Updated
+    "OPT6": { price: 14200, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
     "OPT8": { price: 19600, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
     "OPT10": { price: 25000, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
 
@@ -38,8 +38,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "FTAM5": { price: 27000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
 
     // --- カラー・デザイン・特殊 ---
-    "CM_BZ": { price: 4700, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' },
-    "CM_GY": { price: 6800, thick: 5, label: 'グレーミラー 5mm (CM_GY)' },
+    "CM_BZ": { price: 7500, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' }, // Updated
+    "CM_GY": { price: 7500, thick: 5, label: 'グレーミラー 5mm (CM_GY)' },   // Updated
     "CM_NB": { price: 16200, thick: 5, label: 'ニューブラックミラー 5mm (CM_NB)' },
     "CM_SP": { price: 13500, thick: 5, label: 'セピアブラウンミラー 5mm (CM_SP)' },
     "CM_GD": { price: 13500, thick: 5, label: 'ゴールドイエローミラー 5mm (CM_GD)' },
