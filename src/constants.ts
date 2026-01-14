@@ -38,8 +38,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "FTAM5": { price: 27000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
 
     // --- カラー・デザイン・特殊 ---
-    "CM_BZ": { price: 7500, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' }, // Updated
-    "CM_GY": { price: 7500, thick: 5, label: 'グレーミラー 5mm (CM_GY)' },   // Updated
+    "CM_BZ": { price: 7500, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' },
+    "CM_GY": { price: 7500, thick: 5, label: 'グレーミラー 5mm (CM_GY)' },
     "CM_NB": { price: 16200, thick: 5, label: 'ニューブラックミラー 5mm (CM_NB)' },
     "CM_SP": { price: 13500, thick: 5, label: 'セピアブラウンミラー 5mm (CM_SP)' },
     "CM_GD": { price: 13500, thick: 5, label: 'ゴールドイエローミラー 5mm (CM_GD)' },
@@ -50,7 +50,7 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
 
     "CM_DD": { price: 20300, thick: 5, label: 'ディープダークミラー 5mm (CM_DD)' },
     "LACO": { price: 20300, thick: 5, label: 'ラコベル 5mm (LACO)' },
-    "CM_REJ": { price: 20300, thick: 5, label: 'レジャンヌミラー 5mm (CM_REJ)' },
+    "CM_REJ": { price: 29700, thick: 5, label: 'レジャンヌミラー 5mm (CM_REJ)' }, // Updated
     "CM_CIN": { price: 29700, thick: 5, label: 'シンディエラM 5mm (CM_CIN)' },
     "CM_BLA": { price: 29700, thick: 5, label: 'ブランネジュM 5mm (CM_BLA)' },
     "LUNA": { price: 37800, thick: 5, label: 'ルナランプ 5mm (LUNA)' }
