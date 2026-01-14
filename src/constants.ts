@@ -15,6 +15,7 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "CM5": { price: 3400, thick: 5, label: 'クリアミラー 5mm (CM5)' }, // 主力
     "M6": { price: 8100, thick: 6, label: 'ミラー 6mm (M6)' },
     "JM5": { price: 4700, thick: 5, label: '国産ミラー 5mm (JM5)' },
+    "EPM5": { price: 6800, thick: 5, label: 'エポキシミラー 5mm (EPM5)' }, // Added
     "MS5": { price: 18200, thick: 5, label: '高透過ミラー 5mm (MS5)' },
 
     // --- 型・スリガラス ---
