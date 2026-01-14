@@ -1,60 +1,63 @@
 import type { GlassThickness, ChamferWidth } from './types';
 
-// V4.0 Material DB
+// V4.0 Material DB (Updated 2026-01-14: 13.5x Multiplier)
 export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness; label: string }> = {
-    // 透明フロート
-    "FL3": { price: 2400, thick: 3, label: '透明フロート 3mm (FL3)' },
-    "FL5": { price: 2900, thick: 5, label: '透明フロート 5mm (FL5)' },
-    "FL6": { price: 3500, thick: 6, label: '透明フロート 6mm (FL6)' },
-    "FL8": { price: 5200, thick: 8, label: '透明フロート 8mm (FL8)' },
-    "FL10": { price: 6800, thick: 10, label: '透明フロート 10mm (FL10)' },
-    "FL12": { price: 18500, thick: 12, label: '透明フロート 12mm (FL12)' },
-    // ミラー
-    "M3": { price: 2800, thick: 3, label: 'ミラー 3mm (M3)' },
-    "CM5": { price: 4000, thick: 5, label: 'クリアミラー 5mm (CM5)' },
-    "M6": { price: 9600, thick: 6, label: 'ミラー 6mm (M6)' },
-    "JM5": { price: 5600, thick: 5, label: '国産ミラー 5mm (JM5)' },
-    "EPM5": { price: 8000, thick: 5, label: '防湿ミラー 5mm (EPM5)' },
-    "MS5": { price: 21600, thick: 5, label: '高透過ミラー 5mm (MS5)' },
-    // カラーミラー
-    "BM5": { price: 8800, thick: 5, label: 'ブロンズミラー 5mm (BM5)' },
-    "GM5": { price: 8800, thick: 5, label: 'グレーミラー 5mm (GM5)' },
-    "NBM5": { price: 19200, thick: 5, label: 'ニューブラックミラー 5mm (NBM5)' },
-    "SBM5": { price: 16000, thick: 5, label: 'セピアブラウンミラー 5mm (SBM5)' },
-    "GYM5": { price: 16000, thick: 5, label: 'ゴールドイエローミラー 5mm (GYM5)' },
-    // 型・スリ・その他
-    "F4K": { price: 3200, thick: 4, label: '型ガラス 4mm (F4K)' },
-    "F6K": { price: 5600, thick: 6, label: '型ガラス 6mm (F6K)' },
-    "G3": { price: 5600, thick: 3, label: 'スリガラス 3mm (G3)' },
-    "G5": { price: 8000, thick: 5, label: 'スリガラス 5mm (G5)' },
-    "OPT5": { price: 15200, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
-    "OPT6": { price: 16800, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
-    "OPT8": { price: 23200, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
-    "OPT10": { price: 29600, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
-    // タペガラス (フロスト/タペストリー)
-    "FTA5": { price: 15200, thick: 5, label: 'タペガラス 5mm (FTA5)' },
-    "FTA6": { price: 18400, thick: 6, label: 'タペガラス 6mm (FTA6)' },
-    "FTA8": { price: 23200, thick: 8, label: 'タペガラス 8mm (FTA8)' },
-    "FTA10": { price: 29600, thick: 10, label: 'タペガラス 10mm (FTA10)' },
-    // タペミラー
-    "FTAM5": { price: 32000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
-    // 色ガラス・その他
-    "GL_BZ": { price: 5600, thick: 5, label: '色ガラス ブロンズ 5mm (GL-BZ)' },
-    "GL_DGY": { price: 19200, thick: 5, label: '色ガラス ダークグレー 5mm (GL-DGY)' },
-    "GL_GY": { price: 19200, thick: 5, label: '色ガラス グレー 5mm (GL-GY)' },
-    "CM_DD": { price: 24000, thick: 5, label: 'ディープダークミラー 5mm (CM-DD)' },
-    "LACO": { price: 24000, thick: 5, label: 'ラコベル 5mm (LACO)' },
-    "CM_REJ": { price: 24000, thick: 5, label: 'レジャンヌ 5mm (CM-REJ)' },
-    "CM_CIN": { price: 35200, thick: 5, label: 'シンディエラ 5mm (CM-CIN)' },
-    "CM_BLA": { price: 35200, thick: 5, label: 'ブランネジュ 5mm (CM-BLA)' },
-    "LUNA": { price: 44800, thick: 5, label: 'ルナランプ 5mm (LUNA)' },
+    // --- 透明フロートガラス ---
+    "FL3": { price: 2000, thick: 3, label: '透明フロート 3mm (FL3)' },
+    "FL5": { price: 2400, thick: 5, label: '透明フロート 5mm (FL5)' }, // 主力
+    "FL6": { price: 3000, thick: 6, label: '透明フロート 6mm (FL6)' },
+    "FL8": { price: 4300, thick: 8, label: '透明フロート 8mm (FL8)' },
+    "FL10": { price: 5700, thick: 10, label: '透明フロート 10mm (FL10)' },
+    "FL12": { price: 15500, thick: 12, label: '透明フロート 12mm (FL12)' },
+
+    // --- ミラー（鏡） ---
+    "M3": { price: 2300, thick: 3, label: 'ミラー 3mm (M3)' },
+    "CM5": { price: 3400, thick: 5, label: 'クリアミラー 5mm (CM5)' }, // 主力
+    "M6": { price: 8100, thick: 6, label: 'ミラー 6mm (M6)' },
+    "JM5": { price: 4700, thick: 5, label: '防湿ミラー 5mm (JM5)' },
+    "MS5": { price: 18200, thick: 5, label: '高透過ミラー 5mm (MS5)' },
+
+    // --- 型・スリガラス ---
+    "F4K": { price: 2700, thick: 4, label: '型ガラス(カスミ) 4mm (F4K)' },
+    "F6K": { price: 4700, thick: 6, label: '型ガラス(カスミ) 6mm (F6K)' },
+    "G3": { price: 4700, thick: 3, label: 'スリガラス 3mm (G3)' },
+    "G5": { price: 6800, thick: 5, label: 'スリガラス 5mm (G5)' },
+
+    // --- 高透過・タペガラス (旧FTA) ---
+    "OPT5": { price: 12800, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
+    "OPT8": { price: 19600, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
+    "OPT10": { price: 25000, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
+
+    "FTA5": { price: 12800, thick: 5, label: 'タペガラス 5mm (FTA5)' },
+    "FTA6": { price: 15500, thick: 6, label: 'タペガラス 6mm (FTA6)' },
+    "FTA8": { price: 19600, thick: 8, label: 'タペガラス 8mm (FTA8)' },
+    "FTA10": { price: 25000, thick: 10, label: 'タペガラス 10mm (FTA10)' },
+    "FTAM5": { price: 27000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
+
+    // --- カラー・デザイン・特殊 ---
+    "CM_BZ": { price: 4700, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' },
+    "CM_GY": { price: 6800, thick: 5, label: 'グレーミラー 5mm (CM_GY)' },
+    "CM_NB": { price: 16200, thick: 5, label: 'ニューブラックミラー 5mm (CM_NB)' },
+    "CM_SP": { price: 13500, thick: 5, label: 'セピアブラウンミラー 5mm (CM_SP)' },
+    "CM_GD": { price: 13500, thick: 5, label: 'ゴールドイエローミラー 5mm (CM_GD)' },
+
+    "GL_BZ": { price: 4700, thick: 5, label: 'ブロンズガラス 5mm (GL_BZ)' },
+    "GL_DGY": { price: 16200, thick: 5, label: 'ダークグレーガラス 5mm (GL_DGY)' },
+    "GL_GY": { price: 16200, thick: 5, label: 'グレーガラス(高単価) 5mm (GL_GY)' },
+
+    "CM_DD": { price: 20300, thick: 5, label: 'ディープダークミラー 5mm (CM_DD)' },
+    "LACO": { price: 20300, thick: 5, label: 'ラコベル 5mm (LACO)' },
+    "CM_REJ": { price: 20300, thick: 5, label: 'レジャンヌミラー 5mm (CM_REJ)' },
+    "CM_CIN": { price: 29700, thick: 5, label: 'シンディエラM 5mm (CM_CIN)' },
+    "CM_BLA": { price: 29700, thick: 5, label: 'ブランネジュM 5mm (CM_BLA)' },
+    "LUNA": { price: 37800, thick: 5, label: 'ルナランプ 5mm (LUNA)' }
 };
 
 // ① 加工単価マスタ（円/ｍ）※外周メートルあたりの単価
 // 厚み: 平磨き(糸面)
 export const FLAT_POLISH_PRICES: Record<GlassThickness, number> = {
     3: 400,
-    4: 500, // Added for V4.0
+    4: 500,
     5: 500,
     6: 600,
     8: 800,
@@ -74,12 +77,11 @@ export const ROUGH_PRICES: Record<GlassThickness, number> = {
 };
 
 // ② 面取り特別単価（円/ｍ）
-// Note: Specs say "Flat Polish (thread)" prices are per thickness, but Chamfer prices are per width regardless of thickness.
 // Format: [ChamferWidth][Polish(true/false)]
 export const CHAMFER_PRICES: Record<ChamferWidth, { polished: number; unpolished?: number }> = {
     '12': {
         polished: 900,
-        unpolished: 900, // ERROR case in spec, acting as fallback/alert equivalent
+        unpolished: 900,
     },
     '18': {
         polished: 1500,
@@ -128,7 +130,7 @@ export const OPTION_PRICES = {
 // Coefficient logic: 3,4,5,6mm = 1.0; 8,10,12mm = 1.5
 export const THICKNESS_MULTIPLIERS: Record<GlassThickness, number> = {
     3: 1.0,
-    4: 1.0, // Added for V4.0
+    4: 1.0,
     5: 1.0,
     6: 1.0,
     8: 1.5,

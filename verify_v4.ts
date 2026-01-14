@@ -31,7 +31,7 @@ const runTests = () => {
             name: 'V4.0 Minimum Area (Standard FL5 100x100)',
             input: {
                 dimensions: { width: 100, height: 100, thickness: 5 } as GlassDimensions,
-                unitPrice: 2900,
+                unitPrice: 2400, // Updated 13.5x
                 edge: { top: sc(true), bottom: sc(true), left: sc(true), right: sc(true) } as EdgeProcessing,
                 shape: 'RECT',
                 options: {
@@ -43,7 +43,7 @@ const runTests = () => {
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
             },
-            expected: 780
+            expected: 680 // Material: 0.2 * 2400 = 480. Edge: 200. Total 680.
         },
         {
             name: 'V4.0 Edge Fee Rounding Check (3.5x)',
@@ -109,7 +109,7 @@ const runTests = () => {
             name: 'V4.0 Itomen Thunder (Rect - 10% Material)',
             input: {
                 dimensions: { width: 100, height: 100, thickness: 5 } as GlassDimensions,
-                unitPrice: 2900,
+                unitPrice: 2400, // Updated 13.5x
                 edge: {
                     top: sc(true, 'thunder'), bottom: sc(true, 'thunder'),
                     left: sc(true, 'thunder'), right: sc(true, 'thunder')
@@ -124,14 +124,16 @@ const runTests = () => {
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
             },
-            expected: 640
+            // Material: 0.2 * 2400 = 480.
+            // Edge: 10% = 48.
+            // Total: 528 -> 530.
+            expected: 530
         },
         {
             name: 'V4.0 Express Delivery (Standard)',
             input: {
                 dimensions: { width: 100, height: 100, thickness: 5 } as GlassDimensions,
-                unitPrice: 2900,
-                // Top: Flat Polish (500)
+                unitPrice: 2400, // Updated 13.5x
                 edge: { top: sc(true), bottom: sc(false), left: sc(false), right: sc(false) } as EdgeProcessing,
                 shape: 'RECT',
                 options: {
@@ -144,13 +146,10 @@ const runTests = () => {
                 } as ProcessingOptions,
             },
             isExpress: true,
-
-            // Logic:
-            // Material: 0.2m2 * 2900 = 580.
-            // Edge: 0.1m * 500 = 50.
-            // Express: 50 * 1.2 = 60.
-            // Total: 580 + 60 = 640.
-            expected: 640
+            // Material: 480.
+            // Edge: 50. Express 60.
+            // Total: 480 + 60 = 540.
+            expected: 540
         }
     ];
 
@@ -170,7 +169,7 @@ const runTests = () => {
             shape,
             t.input.options,
             t.input.unitPrice,
-            t.isExpress || false // Pass isExpress
+            t.isExpress || false
         );
         const actual = result.totalFee;
 
