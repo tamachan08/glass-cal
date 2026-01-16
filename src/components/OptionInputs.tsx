@@ -196,6 +196,14 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                         <label>換気扇(φ150~250)</label>
                         <input type="number" min="0" value={options.specialProcessing.ventilator || ''} onChange={e => updateSpecial('ventilator', Number(e.target.value))} />
                     </div>
+                    <div className="option-item">
+                        <label>丁番加工 (ヶ所)</label>
+                        <input type="number" min="0" value={options.specialProcessing.hinge || ''} onChange={e => updateSpecial('hinge', Number(e.target.value))} />
+                    </div>
+                    <div className="option-item">
+                        <label>鍵穴加工 (ヶ所)</label>
+                        <input type="number" min="0" value={options.specialProcessing.keyHole || ''} onChange={e => updateSpecial('keyHole', Number(e.target.value))} />
+                    </div>
                 </div>
 
                 {/* Hikite Processing */}

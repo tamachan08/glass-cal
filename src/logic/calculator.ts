@@ -186,6 +186,9 @@ export const calculateOptionFee = (
     baseRunningTotal += options.specialProcessing.outletSmall * OPTION_PRICES.specialProcessing.outletSmall;
     baseRunningTotal += options.specialProcessing.outletLarge * OPTION_PRICES.specialProcessing.outletLarge;
     baseRunningTotal += options.specialProcessing.ventilator * OPTION_PRICES.specialProcessing.ventilator;
+    baseRunningTotal += (options.specialProcessing.hinge || 0) * (OPTION_PRICES.specialProcessing.hinge || 750);
+    baseRunningTotal += (options.specialProcessing.keyHole || 0) * (OPTION_PRICES.specialProcessing.keyHole || 500);
+
 
     // Hikite Processing (Finger Pull)
     if (options.hikiteCount > 0) {

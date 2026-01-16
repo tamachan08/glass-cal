@@ -127,6 +127,8 @@ export const OPTION_PRICES = {
         outletSmall: 1300,
         outletLarge: 2500,
         ventilator: 4800,
+        hinge: 750,
+        keyHole: 500,
     },
 };
 

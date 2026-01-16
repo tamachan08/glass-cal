@@ -59,6 +59,8 @@ export interface SpecialProcessingOptions {
   outletSmall: number;
   outletLarge: number;
   ventilator: number;
+  hinge: number;
+  keyHole: number;
 }
 
 export interface ComplexItem {

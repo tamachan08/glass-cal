@@ -20,7 +20,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 1, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -38,7 +38,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -56,7 +56,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -77,7 +77,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -98,7 +98,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -119,7 +119,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions
@@ -140,7 +140,7 @@ const runTests = () => {
                     rProcessing: { r15: 0, r30: 0, r50: 0, r100: 0, r200: 0, r300: 0 },
                     holeProcessing: { d5_15: 0, d16_30: 0, d31_50: 0, d51_100: 0, d101_plus: 0 },
                     cornerCutProcessing: { c30: 0, c50: 0, c100: 0, c200: 0 },
-                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0 },
+                    specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
                     hikiteCount: 0,
                     complexProcessing: { notch: [], eguri: [], square_hole: [] }
                 } as ProcessingOptions,
