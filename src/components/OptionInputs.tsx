@@ -1,5 +1,6 @@
 import React from 'react';
 import type { ProcessingOptions } from '../types';
+import { FILM_LABELS } from '../constants';
 
 interface OptionInputsProps {
     options: ProcessingOptions;
@@ -248,6 +249,24 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                     {renderComplexRows('notch', '切り欠き (2辺計) ※50単位で', options.complexProcessing?.notch)}
                     {renderComplexRows('eguri', 'エグリ (3辺計) ※50単位で', options.complexProcessing?.eguri)}
                     {renderComplexRows('square_hole', '角穴 (4辺計) ※50単位で', options.complexProcessing?.square_hole)}
+                </div>
+
+                {/* Film Processing */}
+                <div>
+                    <h3>フィルム貼</h3>
+                    <div className="option-item">
+                        <label>フィルム種類</label>
+                        <select
+                            value={options.filmType || ''}
+                            onChange={e => onChange({ ...options, filmType: e.target.value as any || undefined })}
+                            style={{ width: '100%', padding: '0.5rem' }}
+                        >
+                            <option value="">なし</option>
+                            {Object.entries(FILM_LABELS).map(([key, label]) => (
+                                <option key={key} value={key}>{label}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

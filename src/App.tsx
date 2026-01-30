@@ -41,6 +41,7 @@ function App() {
     specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
     hikiteCount: 0,
     miratect: false,
+    filmType: undefined,
     complexProcessing: {
       notch: Array(4).fill({ totalLength: 0, count: 0 }),
       eguri: Array(4).fill({ totalLength: 0, count: 0 }),
@@ -72,6 +73,7 @@ function App() {
       specialProcessing: { outletSmall: 0, outletLarge: 0, ventilator: 0, hinge: 0, keyHole: 0 },
       hikiteCount: 0,
       miratect: false,
+      filmType: undefined,
       complexProcessing: {
         notch: Array(4).fill({ totalLength: 0, count: 0 }),
         eguri: Array(4).fill({ totalLength: 0, count: 0 }),

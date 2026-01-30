@@ -1,5 +1,5 @@
 import type { GlassDimensions, EdgeProcessing, ProcessingOptions, CalculationResult, ShapeType } from '../types';
-import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS, ROUGH_PRICES } from '../constants';
+import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS, ROUGH_PRICES, FILM_PRICES } from '../constants';
 
 export const calculatePerimeter = (
     widthMm: number,
@@ -252,7 +252,20 @@ export const calculateOptionFee = (
         }
     }
 
-    return Math.ceil(baseRunningTotal * multiplier);
+    const standardTotalFn = Math.ceil(baseRunningTotal * multiplier);
+
+    // Film Processing (Not subject to thickness multiplier)
+    let filmFee = 0;
+    if (options.filmType) {
+        // Round dimensions up to nearest 100mm (0.1m)
+        // e.g. 926 -> 1000mm (1.0m), 368 -> 400mm (0.4m)
+        const widthM = Math.ceil(dimensions.width / 100) / 10;
+        const heightM = Math.ceil(dimensions.height / 100) / 10;
+        const unitPrice = FILM_PRICES[options.filmType] || 0;
+        filmFee = Math.ceil(widthM * heightM * unitPrice);
+    }
+
+    return standardTotalFn + filmFee;
 };
 
 export const calculateTotal = (

@@ -74,6 +74,8 @@ export interface ComplexProcessingOptions {
   square_hole: ComplexItem[]; // Square Hole (Ana)
 }
 
+export type FilmType = 'shatterproof' | 'tn200' | 'glasstect' | 'foglas' | 'milky';
+
 export interface ProcessingOptions {
   rProcessing: RProcessingOptions;
   cornerCutProcessing: CornerCutOptions;
@@ -81,6 +83,7 @@ export interface ProcessingOptions {
   specialProcessing: SpecialProcessingOptions;
   hikiteCount: number;
   miratect: boolean;
+  filmType?: FilmType;
   complexProcessing: ComplexProcessingOptions;
 }
 

@@ -132,6 +132,22 @@ export const OPTION_PRICES = {
     },
 };
 
+export const FILM_PRICES: Record<import('./types').FilmType, number> = {
+    'shatterproof': 4200,
+    'tn200': 8500,
+    'glasstect': 20000,
+    'foglas': 6500,
+    'milky': 6500
+};
+
+export const FILM_LABELS: Record<import('./types').FilmType, string> = {
+    'shatterproof': '飛散防止フィルム',
+    'tn200': 'TN-200',
+    'glasstect': 'グラステクト',
+    'foglas': 'フォグラスC-16',
+    'milky': 'ミルキーミルキー'
+};
+
 // Coefficient logic: 3,4,5,6mm = 1.0; 8,10,12mm = 1.5
 export const THICKNESS_MULTIPLIERS: Record<GlassThickness, number> = {
     3: 1.0,
