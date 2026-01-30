@@ -204,10 +204,7 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                         <label>鍵穴加工 (ヶ所)</label>
                         <input type="number" min="0" value={options.specialProcessing.keyHole || ''} onChange={e => updateSpecial('keyHole', Number(e.target.value))} />
                     </div>
-                    <div className="option-item">
-                        <label>ミラテクト (ヶ所)</label>
-                        <input type="number" min="0" value={options.specialProcessing.miratect || ''} onChange={e => updateSpecial('miratect', Number(e.target.value))} />
-                    </div>
+
                 </div>
 
                 {/* Hikite Processing */}
@@ -221,6 +218,27 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                             value={options.hikiteCount || ''}
                             onChange={e => onChange({ ...options, hikiteCount: Number(e.target.value) })}
                         />
+                    </div>
+                </div>
+
+                {/* Miratect Processing */}
+                <div>
+                    <h3>ミラテクト</h3>
+                    <div className="option-item">
+                        <label>ミラテクト加工</label>
+                        <button
+                            onClick={() => onChange({ ...options, miratect: !options.miratect })}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                backgroundColor: options.miratect ? '#4caf50' : '#f0f0f0',
+                                color: options.miratect ? 'white' : 'black',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {options.miratect ? 'あり' : 'なし'}
+                        </button>
                     </div>
                 </div>
 

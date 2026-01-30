@@ -61,7 +61,6 @@ export interface SpecialProcessingOptions {
   ventilator: number;
   hinge: number;
   keyHole: number;
-  miratect: number;
 }
 
 export interface ComplexItem {
@@ -81,6 +80,7 @@ export interface ProcessingOptions {
   holeProcessing: HoleProcessingOptions;
   specialProcessing: SpecialProcessingOptions;
   hikiteCount: number;
+  miratect: boolean;
   complexProcessing: ComplexProcessingOptions;
 }
 

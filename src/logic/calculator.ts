@@ -190,9 +190,11 @@ export const calculateOptionFee = (
     baseRunningTotal += (options.specialProcessing.keyHole || 0) * (OPTION_PRICES.specialProcessing.keyHole || 500);
 
     // Miratect: 100yen if max side <= 900, 200yen if > 900
-    const maxSide = Math.max(dimensions.width, dimensions.height);
-    const miratectPrice = maxSide <= 900 ? 100 : 200;
-    baseRunningTotal += (options.specialProcessing.miratect || 0) * miratectPrice;
+    if (options.miratect) {
+        const maxSide = Math.max(dimensions.width, dimensions.height);
+        const miratectPrice = maxSide <= 900 ? 100 : 200;
+        baseRunningTotal += miratectPrice;
+    }
 
 
     // Hikite Processing (Finger Pull)
