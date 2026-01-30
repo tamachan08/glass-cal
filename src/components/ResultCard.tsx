@@ -57,6 +57,12 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = fals
                 <span>オプション加工費</span>
                 <span>¥{result.optionFee.toLocaleString()}</span>
             </div>
+            {result.filmFee > 0 && (
+                <div className="result-row">
+                    <span>フィルム貼代</span>
+                    <span>¥{result.filmFee.toLocaleString()}</span>
+                </div>
+            )}
             <div className="result-row total">
                 <span>合計金額</span>
                 <span>¥{result.totalFee.toLocaleString()}</span>

@@ -252,20 +252,7 @@ export const calculateOptionFee = (
         }
     }
 
-    const standardTotalFn = Math.ceil(baseRunningTotal * multiplier);
-
-    // Film Processing (Not subject to thickness multiplier)
-    let filmFee = 0;
-    if (options.filmType) {
-        // Round dimensions up to nearest 100mm (0.1m)
-        // e.g. 926 -> 1000mm (1.0m), 368 -> 400mm (0.4m)
-        const widthM = Math.ceil(dimensions.width / 100) / 10;
-        const heightM = Math.ceil(dimensions.height / 100) / 10;
-        const unitPrice = FILM_PRICES[options.filmType] || 0;
-        filmFee = Math.ceil(widthM * heightM * unitPrice);
-    }
-
-    return standardTotalFn + filmFee;
+    return Math.ceil(baseRunningTotal * multiplier);
 };
 
 export const calculateTotal = (
@@ -279,9 +266,20 @@ export const calculateTotal = (
     const perimeter = calculatePerimeter(dimensions.width, dimensions.height, edge);
     const edgeFee = calculateEdgeFee(dimensions, edge, shape, unitPrice, isExpress);
     const optionFee = calculateOptionFee(dimensions, options);
+
+    // Film Fee Calculation (Separate and rounded to nearest 10)
+    let filmFee = 0;
+    if (options.filmType) {
+        const widthM = Math.ceil(dimensions.width / 100) / 10;
+        const heightM = Math.ceil(dimensions.height / 100) / 10;
+        const unitPriceFilm = FILM_PRICES[options.filmType] || 0;
+        const rawFilmFee = Math.ceil(widthM * heightM * unitPriceFilm);
+        filmFee = Math.ceil(rawFilmFee / 10) * 10; // Round up to nearest 10
+    }
+
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
 
-    const total = edgeFee + optionFee + glassCost;
+    const total = edgeFee + optionFee + filmFee + glassCost;
     const roundedTotal = Math.ceil(total / 10) * 10;
     const areaM2 = (dimensions.width * dimensions.height) / 1_000_000;
 
@@ -290,6 +288,7 @@ export const calculateTotal = (
         perimeter,
         edgeFee,
         optionFee,
+        filmFee,
         glassCost,
         totalFee: roundedTotal,
     };

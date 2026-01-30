@@ -54,15 +54,17 @@ const runTest = (width: number, height: number, thick: 5 | 8, filmType: string |
         const wM = Math.ceil(width / 100) / 10;
         const hM = Math.ceil(height / 100) / 10;
         const price = (FILM_PRICES as any)[filmType];
-        expectedFilmFee = Math.ceil(wM * hM * price);
+        const raw = Math.ceil(wM * hM * price);
+        expectedFilmFee = Math.ceil(raw / 10) * 10; // Round up to 10
     }
 
     // Note: calculateTotal returns rounded totalFee.
 
-    const passed = result.totalFee === expectedFilmFee;
+    // Check filmFee property directly
+    const passed = result.filmFee === expectedFilmFee;
     console.log(`[${passed ? 'PASS' : 'FAIL'}] ${description}`);
     console.log(`  Size: ${width}x${height}, Film: ${filmType}`);
-    console.log(`  Expected: ${expectedFilmFee}, Got: ${result.totalFee}`);
+    console.log(`  Expected: ${expectedFilmFee}, Got: ${result.filmFee}`);
     if (!passed) process.exit(1);
 };
 

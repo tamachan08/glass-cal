@@ -98,6 +98,7 @@ export interface CalculationResult {
   perimeter: number;
   edgeFee: number;
   optionFee: number;
+  filmFee: number;
   glassCost: number;
   totalFee: number;
 }
