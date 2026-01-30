@@ -245,9 +245,9 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                 {/* Complex Processing */}
                 <div>
                     <h3>変形加工</h3>
-                    {renderComplexRows('notch', '切り欠き (2辺計)', options.complexProcessing?.notch)}
-                    {renderComplexRows('eguri', 'エグリ (3辺計)', options.complexProcessing?.eguri)}
-                    {renderComplexRows('square_hole', '角穴 (4辺計)', options.complexProcessing?.square_hole)}
+                    {renderComplexRows('notch', '切り欠き (2辺計) ※50単位で', options.complexProcessing?.notch)}
+                    {renderComplexRows('eguri', 'エグリ (3辺計) ※50単位で', options.complexProcessing?.eguri)}
+                    {renderComplexRows('square_hole', '角穴 (4辺計) ※50単位で', options.complexProcessing?.square_hole)}
                 </div>
             </div>
         </div>
