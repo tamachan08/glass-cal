@@ -204,6 +204,10 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                         <label>鍵穴加工 (ヶ所)</label>
                         <input type="number" min="0" value={options.specialProcessing.keyHole || ''} onChange={e => updateSpecial('keyHole', Number(e.target.value))} />
                     </div>
+                    <div className="option-item">
+                        <label>ミラテクト (ヶ所)</label>
+                        <input type="number" min="0" value={options.specialProcessing.miratect || ''} onChange={e => updateSpecial('miratect', Number(e.target.value))} />
+                    </div>
                 </div>
 
                 {/* Hikite Processing */}
