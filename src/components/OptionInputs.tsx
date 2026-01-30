@@ -185,11 +185,11 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                 <div>
                     <h3>特殊穴あけ</h3>
                     <div className="option-item">
-                        <label>コンセント（小）</label>
+                        <label>コンセント小（50×100）</label>
                         <input type="number" min="0" value={options.specialProcessing.outletSmall || ''} onChange={e => updateSpecial('outletSmall', Number(e.target.value))} />
                     </div>
                     <div className="option-item">
-                        <label>コンセント（大）</label>
+                        <label>コンセント大（100×100）</label>
                         <input type="number" min="0" value={options.specialProcessing.outletLarge || ''} onChange={e => updateSpecial('outletLarge', Number(e.target.value))} />
                     </div>
                     <div className="option-item">
