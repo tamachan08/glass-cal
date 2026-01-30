@@ -42,6 +42,8 @@ function App() {
     hikiteCount: 0,
     miratect: false,
     filmType: undefined,
+    filmDelivery: false,
+    filmPickup: false,
     complexProcessing: {
       notch: Array(4).fill({ totalLength: 0, count: 0 }),
       eguri: Array(4).fill({ totalLength: 0, count: 0 }),
@@ -74,6 +76,8 @@ function App() {
       hikiteCount: 0,
       miratect: false,
       filmType: undefined,
+      filmDelivery: false,
+      filmPickup: false,
       complexProcessing: {
         notch: Array(4).fill({ totalLength: 0, count: 0 }),
         eguri: Array(4).fill({ totalLength: 0, count: 0 }),

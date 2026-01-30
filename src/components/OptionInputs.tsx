@@ -267,6 +267,43 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                             ))}
                         </select>
                     </div>
+                    {/* Film Options */}
+                    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                        <div className="option-item" style={{ flex: '1 1 auto' }}>
+                            <label>フィルム貼配送費</label>
+                            <button
+                                onClick={() => onChange({ ...options, filmDelivery: !options.filmDelivery })}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    backgroundColor: options.filmDelivery ? '#4caf50' : '#f0f0f0',
+                                    color: options.filmDelivery ? 'white' : 'black',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {options.filmDelivery ? 'あり (2,000円)' : 'なし'}
+                            </button>
+                        </div>
+                        <div className="option-item" style={{ flex: '1 1 auto' }}>
+                            <label>フィルム貼引取費</label>
+                            <button
+                                onClick={() => onChange({ ...options, filmPickup: !options.filmPickup })}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    backgroundColor: options.filmPickup ? '#4caf50' : '#f0f0f0',
+                                    color: options.filmPickup ? 'white' : 'black',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {options.filmPickup ? 'あり (2,000円)' : 'なし'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

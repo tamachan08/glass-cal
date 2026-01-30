@@ -148,6 +148,11 @@ export const FILM_LABELS: Record<import('./types').FilmType, string> = {
     'milky': 'ミルキーミルキー'
 };
 
+export const FILM_OPTION_PRICES = {
+    delivery: 2000,
+    pickup: 2000
+};
+
 // Coefficient logic: 3,4,5,6mm = 1.0; 8,10,12mm = 1.5
 export const THICKNESS_MULTIPLIERS: Record<GlassThickness, number> = {
     3: 1.0,

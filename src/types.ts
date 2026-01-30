@@ -84,6 +84,8 @@ export interface ProcessingOptions {
   hikiteCount: number;
   miratect: boolean;
   filmType?: FilmType;
+  filmDelivery: boolean;
+  filmPickup: boolean;
   complexProcessing: ComplexProcessingOptions;
 }
 

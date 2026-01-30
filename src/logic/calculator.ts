@@ -1,5 +1,5 @@
 import type { GlassDimensions, EdgeProcessing, ProcessingOptions, CalculationResult, ShapeType } from '../types';
-import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS, ROUGH_PRICES, FILM_PRICES } from '../constants';
+import { FLAT_POLISH_PRICES, CHAMFER_PRICES, OPTION_PRICES, THICKNESS_MULTIPLIERS, SHAPE_MULTIPLIERS, ROUGH_PRICES, FILM_PRICES, FILM_OPTION_PRICES } from '../constants';
 
 export const calculatePerimeter = (
     widthMm: number,
@@ -269,11 +269,26 @@ export const calculateTotal = (
 
     // Film Fee Calculation (Separate and rounded to nearest 10)
     let filmFee = 0;
+    // Check if any film option is active (User might select Delivery only? Assuming yes based on request)
+    // But usually delivery implies film. However, I'll calculate them if the options are true.
+    let rawFilmFee = 0;
+
     if (options.filmType) {
         const widthM = Math.ceil(dimensions.width / 100) / 10;
         const heightM = Math.ceil(dimensions.height / 100) / 10;
         const unitPriceFilm = FILM_PRICES[options.filmType] || 0;
-        const rawFilmFee = Math.ceil(widthM * heightM * unitPriceFilm);
+        rawFilmFee += Math.ceil(widthM * heightM * unitPriceFilm);
+    }
+
+    if (options.filmDelivery) {
+        rawFilmFee += FILM_OPTION_PRICES.delivery;
+    }
+
+    if (options.filmPickup) {
+        rawFilmFee += FILM_OPTION_PRICES.pickup;
+    }
+
+    if (rawFilmFee > 0) {
         filmFee = Math.ceil(rawFilmFee / 10) * 10; // Round up to nearest 10
     }
 
