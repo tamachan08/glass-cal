@@ -53,7 +53,9 @@ export const calculateEdgeFee = (
         const config = edge[side];
         if (!config.enabled) return 0;
 
-        const lengthMeters = Math.ceil(lengthMm / 10) / 100;
+        // Apply Minimum Edge Length of 250mm
+        const effectiveLengthMm = Math.max(lengthMm, 250);
+        const lengthMeters = Math.ceil(effectiveLengthMm / 10) / 100;
         const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
 
         // Shape Multiplier for this specific edge calc
@@ -112,7 +114,9 @@ export const calculateEdgeFee = (
             return calcSideFee(side, lengthMm);
         }
 
-        const lengthMeters = Math.ceil(lengthMm / 10) / 100;
+        // Apply Minimum Edge Length of 250mm
+        const effectiveLengthMm = Math.max(lengthMm, 250);
+        const lengthMeters = Math.ceil(effectiveLengthMm / 10) / 100;
         const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
 
         let uPrice = 0;
