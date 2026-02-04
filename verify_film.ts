@@ -91,6 +91,9 @@ runTest(500, 500, 5, 'glasstect', false, false, 5000, '500x500 Glasstect');
 // 1.0 * 1.0 = 1.0. 8500.
 runTest(1000, 1000, 5, 'tn200', false, false, 8500, '1000x1000 TN-200');
 
+// Case 3b: 1000x1000, Iromizu (15000)
+runTest(1000, 1000, 5, 'iromizu', false, false, 15000, '1000x1000 Iromizu');
+
 // Case 4: No film
 runTest(500, 500, 5, undefined, false, false, 0, 'No film');
 

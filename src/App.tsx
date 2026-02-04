@@ -178,7 +178,7 @@ function App() {
       />
 
       <footer style={{ marginTop: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
-        v2.0 (Shape Multipliers)
+        v2.1 (Film Update) - Iromizu Added
       </footer>
     </div>
   );
