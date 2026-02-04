@@ -27,8 +27,8 @@ export const calculateGlassCost = (
 ): number => {
     // Area in square meters
     const area = (widthMm * heightMm) / 1_000_000;
-    // Minimum area rule: 0.2m2
-    const calcArea = Math.max(area, 0.2);
+    // Minimum area rule: 0.1m2
+    const calcArea = Math.max(area, 0.1);
     const rawCost = calcArea * unitPrice;
     // Round up to nearest 10 yen
     return Math.ceil(rawCost / 10) * 10;
