@@ -139,7 +139,7 @@ export const GlassInputs: React.FC<GlassInputsProps> = ({
 
             {mode === 'standard' && width > 0 && height > 0 && (
                 <div style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#666' }}>
-                    ※計算面積: {Math.max((width * height) / 1000000, 0.2).toFixed(2)} ㎡ (最低0.2㎡)
+                    ※計算面積: {Math.max((width * height) / 1000000, 0.1).toFixed(2)} ㎡ (最低0.1㎡)
                 </div>
             )}
         </div>
