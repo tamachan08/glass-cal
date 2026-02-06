@@ -102,5 +102,6 @@ export interface CalculationResult {
   optionFee: number;
   filmFee: number;
   glassCost: number;
+  subtotal: number;
   totalFee: number;
 }

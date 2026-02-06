@@ -298,7 +298,8 @@ export const calculateTotal = (
 
     const glassCost = calculateGlassCost(dimensions.width, dimensions.height, unitPrice);
 
-    const total = edgeFee + optionFee + filmFee + glassCost;
+    const subtotal = edgeFee + optionFee + glassCost;
+    const total = subtotal + filmFee;
     const roundedTotal = Math.ceil(total / 10) * 10;
     const areaM2 = (dimensions.width * dimensions.height) / 1_000_000;
 
@@ -309,6 +310,7 @@ export const calculateTotal = (
         optionFee,
         filmFee,
         glassCost,
+        subtotal,
         totalFee: roundedTotal,
     };
 };
