@@ -91,8 +91,85 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
             <h2>Step 3: オプション加工（個数）</h2>
 
             <div className="grid-3">
+                {/* Miratect Processing */}
+                <div>
+                    <h3>ミラテクト</h3>
+                    <div className="option-item">
+                        <label>ミラテクト加工</label>
+                        <button
+                            onClick={() => onChange({ ...options, miratect: !options.miratect })}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                backgroundColor: options.miratect ? '#4caf50' : '#f0f0f0',
+                                color: options.miratect ? 'white' : 'black',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {options.miratect ? 'あり' : 'なし'}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Film Processing */}
+                <div>
+                    <h3>フィルム貼</h3>
+                    <div className="option-item">
+                        <label>フィルム種類</label>
+                        <select
+                            value={options.filmType || ''}
+                            onChange={e => onChange({ ...options, filmType: e.target.value as any || undefined })}
+                            style={{ width: '100%', padding: '0.5rem' }}
+                        >
+                            <option value="">なし</option>
+                            {Object.entries(FILM_LABELS).map(([key, label]) => (
+                                <option key={key} value={key}>{label}</option>
+                            ))}
+                        </select>
+                    </div>
+                    {/* Film Options */}
+                    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                        <div className="option-item" style={{ flex: '1 1 auto' }}>
+                            <label>フィルム貼配送費</label>
+                            <button
+                                onClick={() => onChange({ ...options, filmDelivery: !options.filmDelivery })}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    backgroundColor: options.filmDelivery ? '#4caf50' : '#f0f0f0',
+                                    color: options.filmDelivery ? 'white' : 'black',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {options.filmDelivery ? 'あり (2,000円)' : 'なし'}
+                            </button>
+                        </div>
+                        <div className="option-item" style={{ flex: '1 1 auto' }}>
+                            <label>フィルム貼引取費</label>
+                            <button
+                                onClick={() => onChange({ ...options, filmPickup: !options.filmPickup })}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    backgroundColor: options.filmPickup ? '#4caf50' : '#f0f0f0',
+                                    color: options.filmPickup ? 'white' : 'black',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {options.filmPickup ? 'あり (2,000円)' : 'なし'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 {/* R Processing */}
                 <div>
+
                     <h3>R加工</h3>
                     <div className="option-item">
                         <label>〜R15</label>
@@ -222,26 +299,7 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                     </div>
                 </div>
 
-                {/* Miratect Processing */}
-                <div>
-                    <h3>ミラテクト</h3>
-                    <div className="option-item">
-                        <label>ミラテクト加工</label>
-                        <button
-                            onClick={() => onChange({ ...options, miratect: !options.miratect })}
-                            style={{
-                                padding: '0.5rem 1rem',
-                                backgroundColor: options.miratect ? '#4caf50' : '#f0f0f0',
-                                color: options.miratect ? 'white' : 'black',
-                                border: '1px solid #ccc',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            {options.miratect ? 'あり' : 'なし'}
-                        </button>
-                    </div>
-                </div>
+
 
                 {/* Complex Processing */}
                 <div>
@@ -251,60 +309,7 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                     {renderComplexRows('square_hole', '角穴 (4辺計) ※50単位で', options.complexProcessing?.square_hole)}
                 </div>
 
-                {/* Film Processing */}
-                <div>
-                    <h3>フィルム貼</h3>
-                    <div className="option-item">
-                        <label>フィルム種類</label>
-                        <select
-                            value={options.filmType || ''}
-                            onChange={e => onChange({ ...options, filmType: e.target.value as any || undefined })}
-                            style={{ width: '100%', padding: '0.5rem' }}
-                        >
-                            <option value="">なし</option>
-                            {Object.entries(FILM_LABELS).map(([key, label]) => (
-                                <option key={key} value={key}>{label}</option>
-                            ))}
-                        </select>
-                    </div>
-                    {/* Film Options */}
-                    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                        <div className="option-item" style={{ flex: '1 1 auto' }}>
-                            <label>フィルム貼配送費</label>
-                            <button
-                                onClick={() => onChange({ ...options, filmDelivery: !options.filmDelivery })}
-                                style={{
-                                    width: '100%',
-                                    padding: '0.5rem',
-                                    backgroundColor: options.filmDelivery ? '#4caf50' : '#f0f0f0',
-                                    color: options.filmDelivery ? 'white' : 'black',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                {options.filmDelivery ? 'あり (2,000円)' : 'なし'}
-                            </button>
-                        </div>
-                        <div className="option-item" style={{ flex: '1 1 auto' }}>
-                            <label>フィルム貼引取費</label>
-                            <button
-                                onClick={() => onChange({ ...options, filmPickup: !options.filmPickup })}
-                                style={{
-                                    width: '100%',
-                                    padding: '0.5rem',
-                                    backgroundColor: options.filmPickup ? '#4caf50' : '#f0f0f0',
-                                    color: options.filmPickup ? 'white' : 'black',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                {options.filmPickup ? 'あり (2,000円)' : 'なし'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     );
