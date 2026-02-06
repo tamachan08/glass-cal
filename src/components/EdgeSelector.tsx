@@ -180,6 +180,7 @@ export const EdgeSelector: React.FC<EdgeSelectorProps> = ({ edge, onChange }) =>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <button style={getButtonStyle('flat_polish_migaki')} onClick={() => applyToAll('flat_polish', 'migaki')}>全て平磨き(磨き)</button>
                     <button style={getButtonStyle('flat_polish_arazuri')} onClick={() => applyToAll('flat_polish', 'arazuri')}>全て平磨き(荒摺り)</button>
+                    <button style={getButtonStyle('chamfer_migaki')} onClick={() => applyToAll('chamfer', 'migaki')}>全て面取り加工</button>
                     <button style={getButtonStyle('suriawase_migaki')} onClick={() => applyToAll('suriawase', 'migaki')}>全てスリアワセ</button>
                     <button style={getButtonStyle('kamaboko_migaki')} onClick={() => applyToAll('kamaboko', 'migaki')}>全てかまぼこ磨</button>
                     <button style={getButtonStyle('thunder_arazuri')} onClick={() => applyToAll('thunder', 'arazuri')}>全て糸面サンダー</button>
