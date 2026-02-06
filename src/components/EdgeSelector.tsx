@@ -16,11 +16,14 @@ const PROCESS_LABELS: Record<ProcessingType, string> = {
 
 export const EdgeSelector: React.FC<EdgeSelectorProps> = ({ edge, onChange }) => {
 
+    const [activePreset, setActivePreset] = React.useState<string>('flat_polish_migaki');
+
     const updateSide = (side: keyof EdgeProcessing, updates: Partial<SideConfig>) => {
         onChange({
             ...edge,
             [side]: { ...edge[side], ...updates }
         });
+        setActivePreset(''); // Clear preset when manually changing
     };
 
     // Helper to render a single side configurator
@@ -123,39 +126,64 @@ export const EdgeSelector: React.FC<EdgeSelectorProps> = ({ edge, onChange }) =>
 
     // Batch Update Function
     const applyToAll = (
-        type: ProcessingType,
-        finish: EdgeFinish,
-        chamferWidth?: ChamferWidth,
-        polishChamferEdge?: boolean
+        type?: ProcessingType,
+        finish?: EdgeFinish,
     ) => {
         const sides: (keyof EdgeProcessing)[] = ['top', 'bottom', 'left', 'right'];
         const newEdge = { ...edge };
-        sides.forEach(side => {
-            if (newEdge[side].enabled) {
+
+        let presetKey = '';
+
+        if (!type) {
+            // Cut Only Case
+            sides.forEach(side => {
+                newEdge[side] = { ...newEdge[side], enabled: false };
+            });
+            presetKey = 'cut_only';
+        } else {
+            sides.forEach(side => {
                 newEdge[side] = {
                     ...newEdge[side],
-                    type,
-                    finish,
-                    chamferWidth: type === 'chamfer' ? (chamferWidth || '12') : undefined,
-                    polishChamferEdge: type === 'chamfer' ? (polishChamferEdge ?? true) : undefined
+                    enabled: true, // Force enable
+                    type: type,
+                    finish: finish || 'migaki',
+                    chamferWidth: type === 'chamfer' ? '12' : undefined,
+                    polishChamferEdge: type === 'chamfer' ? true : undefined
                 };
-            }
-        });
+            });
+            presetKey = `${type}_${finish}`;
+        }
+
         onChange(newEdge);
+        setActivePreset(presetKey);
     };
+
+    const getButtonStyle = (presetKey: string) => ({
+        padding: '0.5rem 0.8rem',
+        fontSize: '0.9rem',
+        cursor: 'pointer',
+        border: '1px solid',
+        borderRadius: '4px',
+        backgroundColor: activePreset === presetKey ? '#00bcd4' : 'transparent',
+        borderColor: activePreset === presetKey ? '#00bcd4' : 'rgba(255,255,255,0.3)',
+        color: 'white',
+        fontWeight: activePreset === presetKey ? 'bold' : 'normal',
+        transition: 'all 0.2s'
+    });
 
     return (
         <div className="glass-card">
             <h2>Step 2: エッジ加工 (辺ごと)</h2>
 
             <div className="batch-controls" style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}>
-                <h4 style={{ margin: '0 0 0.5rem 0' }}>一括設定 (有効な辺のみ)</h4>
+                <h4 style={{ margin: '0 0 0.5rem 0' }}>一括設定</h4>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <button onClick={() => applyToAll('flat_polish', 'migaki')}>全て平磨き(磨き)</button>
-                    <button onClick={() => applyToAll('flat_polish', 'arazuri')}>全て平磨き(荒摺り)</button>
-                    <button onClick={() => applyToAll('suriawase', 'migaki')}>全てスリアワセ</button>
-                    <button onClick={() => applyToAll('kamaboko', 'migaki')}>全てかまぼこ磨</button>
-                    <button onClick={() => applyToAll('thunder', 'arazuri')}>全て糸面サンダー</button>
+                    <button style={getButtonStyle('flat_polish_migaki')} onClick={() => applyToAll('flat_polish', 'migaki')}>全て平磨き(磨き)</button>
+                    <button style={getButtonStyle('flat_polish_arazuri')} onClick={() => applyToAll('flat_polish', 'arazuri')}>全て平磨き(荒摺り)</button>
+                    <button style={getButtonStyle('suriawase_migaki')} onClick={() => applyToAll('suriawase', 'migaki')}>全てスリアワセ</button>
+                    <button style={getButtonStyle('kamaboko_migaki')} onClick={() => applyToAll('kamaboko', 'migaki')}>全てかまぼこ磨</button>
+                    <button style={getButtonStyle('thunder_arazuri')} onClick={() => applyToAll('thunder', 'arazuri')}>全て糸面サンダー</button>
+                    <button style={getButtonStyle('cut_only')} onClick={() => applyToAll(undefined, undefined)}>全て切放</button>
                 </div>
             </div>
 
