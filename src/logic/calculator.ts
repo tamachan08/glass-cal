@@ -277,11 +277,37 @@ export const calculateTotal = (
     // But usually delivery implies film. However, I'll calculate them if the options are true.
     let rawFilmFee = 0;
 
+    // Helper to check for "Complex" options
+    const hasComplexProcessing = (opts: ProcessingOptions): boolean => {
+        // R Processing
+        if (Object.values(opts.rProcessing).some(val => val > 0)) return true;
+        // Corner Cut
+        if (opts.cornerCutProcessing && Object.values(opts.cornerCutProcessing).some(val => val > 0)) return true;
+        // Hole Processing
+        if (Object.values(opts.holeProcessing).some(val => val > 0)) return true;
+        // Special Processing (Outlets, Ventilator, Hinge, Keyhole)
+        if (Object.values(opts.specialProcessing).some(val => val > 0)) return true;
+        // Complex Processing (Notch, Eguri, Square Hole)
+        if (opts.complexProcessing) {
+            if (opts.complexProcessing.notch?.some(i => i.count > 0)) return true;
+            if (opts.complexProcessing.eguri?.some(i => i.count > 0)) return true;
+            if (opts.complexProcessing.square_hole?.some(i => i.count > 0)) return true;
+        }
+        return false;
+    };
+
     if (options.filmType) {
         const widthM = Math.ceil(dimensions.width / 100) / 10;
         const heightM = Math.ceil(dimensions.height / 100) / 10;
         const unitPriceFilm = FILM_PRICES[options.filmType] || 0;
-        rawFilmFee += Math.ceil(widthM * heightM * unitPriceFilm);
+        let baseFilmCost = Math.ceil(widthM * heightM * unitPriceFilm);
+
+        // Apply 1.2x multiplier if complex options exist
+        if (hasComplexProcessing(options)) {
+            baseFilmCost = Math.ceil(baseFilmCost * 1.2);
+        }
+
+        rawFilmFee += baseFilmCost;
     }
 
     if (options.filmDelivery) {
