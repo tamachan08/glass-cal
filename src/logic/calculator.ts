@@ -56,7 +56,10 @@ export const calculateEdgeFee = (
         // Apply Minimum Edge Length of 250mm
         const effectiveLengthMm = Math.max(lengthMm, 250);
         const lengthMeters = Math.ceil(effectiveLengthMm / 10) / 100;
-        const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+        let finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+        if (config.type === 'chamfer' && !config.polishChamferEdge) {
+            finishMultiplier = 1.0;
+        }
 
         // Shape Multiplier for this specific edge calc
         let shapeMult = SHAPE_MULTIPLIERS[shape] || 1.0;
@@ -117,7 +120,10 @@ export const calculateEdgeFee = (
         // Apply Minimum Edge Length of 250mm
         const effectiveLengthMm = Math.max(lengthMm, 250);
         const lengthMeters = Math.ceil(effectiveLengthMm / 10) / 100;
-        const finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+        let finishMultiplier = config.finish === 'arazuri' ? 0.9 : 1.0;
+        if (config.type === 'chamfer' && !config.polishChamferEdge) {
+            finishMultiplier = 1.0;
+        }
 
         let uPrice = 0;
         if (config.type === 'flat_polish') {
