@@ -96,7 +96,7 @@ export const CHAMFER_PRICES: Record<ChamferWidth, { polished: number; unpolished
     },
     '25_plus': {
         polished: 2700,
-        unpolished: 2700,
+        unpolished: 2500,
     },
 };
 
