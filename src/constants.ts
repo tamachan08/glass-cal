@@ -25,16 +25,16 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "G5": { price: 6800, thick: 5, label: 'スリガラス 5mm (G5)' },
 
     // --- 高透過・タペガラス (旧FTA) ---
-    "OPT3": { price: 9500, thick: 3, label: '高透過ガラス 3mm (OPT3)' },
-    "OPT5": { price: 12800, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
-    "OPT6": { price: 14200, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
-    "OPT8": { price: 19600, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
-    "OPT10": { price: 25000, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
+    "OPT3": { price: 10000, thick: 3, label: '高透過ガラス 3mm (OPT3)' },
+    "OPT5": { price: 13500, thick: 5, label: '高透過ガラス 5mm (OPT5)' },
+    "OPT6": { price: 16200, thick: 6, label: '高透過ガラス 6mm (OPT6)' },
+    "OPT8": { price: 21600, thick: 8, label: '高透過ガラス 8mm (OPT8)' },
+    "OPT10": { price: 27000, thick: 10, label: '高透過ガラス 10mm (OPT10)' },
 
-    "FTA5": { price: 12800, thick: 5, label: 'タペガラス 5mm (FTA5)' },
-    "FTA6": { price: 15500, thick: 6, label: 'タペガラス 6mm (FTA6)' },
-    "FTA8": { price: 19600, thick: 8, label: 'タペガラス 8mm (FTA8)' },
-    "FTA10": { price: 25000, thick: 10, label: 'タペガラス 10mm (FTA10)' },
+    "FTA5": { price: 14200, thick: 5, label: 'タペガラス 5mm (FTA5)' },
+    "FTA6": { price: 16900, thick: 6, label: 'タペガラス 6mm (FTA6)' },
+    "FTA8": { price: 22300, thick: 8, label: 'タペガラス 8mm (FTA8)' },
+    "FTA10": { price: 37800, thick: 10, label: 'タペガラス 10mm (FTA10)' },
     "FTAM5": { price: 27000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
 
     // --- カラー・デザイン・特殊 ---
