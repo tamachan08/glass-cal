@@ -308,8 +308,8 @@ export const calculateTotal = (
         const unitPriceFilm = FILM_PRICES[options.filmType] || 0;
         let baseFilmCost = Math.ceil(widthM * heightM * unitPriceFilm);
 
-        // Apply 1.2x multiplier if complex options exist
-        if (hasComplexProcessing(options)) {
+        // Apply 1.2x multiplier if complex options exist OR shape is not RECT
+        if (hasComplexProcessing(options) || shape !== 'RECT') {
             baseFilmCost = Math.ceil(baseFilmCost * 1.2);
         }
 
