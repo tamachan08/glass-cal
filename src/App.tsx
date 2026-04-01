@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { supabase } from './lib/supabase';
 import { GlassInputs } from './components/GlassInputs';
 import { ShapeSelector } from './components/ShapeSelector';
 import { EdgeSelector } from './components/EdgeSelector';
@@ -7,6 +9,8 @@ import { ResultCard } from './components/ResultCard';
 import type { GlassDimensions, EdgeProcessing, ProcessingOptions, ShapeType, GlassMode } from './types';
 import { calculateTotal } from './logic/calculator';
 import { MATERIAL_DB } from './constants';
+
+const SESSION_ID = uuidv4();
 
 function App() {
   // V4.0 State
@@ -117,6 +121,37 @@ function App() {
   const result = useMemo(() => {
     return calculateTotal(dimensions, edge, shape, options, unitPrice, isExpress);
   }, [dimensions, edge, shape, options, unitPrice, isExpress]);
+
+  // --- Tracking Logic (送信処理) ---
+  useEffect(() => {
+    // サイズが小さすぎる場合や、まだ計算単価が0の場合は送信しない
+    if (dimensions.width < 50 || dimensions.height < 50 || result.totalFee === 0) return;
+
+    // ユーザーが入力を止めて2秒後に送信する（何度もタイピングするたびに送るのを防ぐ）
+    const timer = setTimeout(async () => {
+      try {
+        await supabase.from('calculation_logs').insert([{
+          glass_type: materialCode || mode,
+          thickness: dimensions.thickness,
+          width_mm: dimensions.width,
+          height_mm: dimensions.height,
+          shape_type: shape,
+          is_express: isExpress,
+          glass_cost: result.glassCost,
+          edge_fee: result.edgeFee,
+          option_fee: result.optionFee,
+          film_fee: result.filmFee,
+          total_fee: result.totalFee,
+          session_id: SESSION_ID,
+          user_agent: navigator.userAgent
+        }]);
+      } catch (err) {
+        console.error("Failed to track calculation:", err);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer); // 次の入力があったら前のタイマーをキャンセル
+  }, [dimensions, shape, isExpress, result, materialCode, mode]);
 
   return (
     <div className="app-container">
