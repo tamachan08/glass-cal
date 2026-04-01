@@ -129,8 +129,10 @@ function App() {
 
     // ユーザーが入力を止めて2秒後に送信する（何度もタイピングするたびに送るのを防ぐ）
     const timer = setTimeout(async () => {
+      console.log("送信準備中...", { 幅: dimensions.width, 高さ: dimensions.height, 金額: result.totalFee });
+      
       try {
-        await supabase.from('calculation_logs').insert([{
+        const { error } = await supabase.from('calculation_logs').insert([{
           glass_type: materialCode || mode,
           thickness: dimensions.thickness,
           width_mm: dimensions.width,
@@ -145,8 +147,14 @@ function App() {
           session_id: SESSION_ID,
           user_agent: navigator.userAgent
         }]);
+        
+        if (error) {
+          console.error("Supabaseエラー詳細:", error);
+        } else {
+          console.log("履歴データをSupabaseに保存しました！");
+        }
       } catch (err) {
-        console.error("Failed to track calculation:", err);
+        console.error("トラッキング実行時エラー:", err);
       }
     }, 2000);
 
