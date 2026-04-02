@@ -5,9 +5,10 @@ interface ResultCardProps {
     result: CalculationResult;
     isExpress?: boolean;
     onExpressChange?: (val: boolean) => void;
+    materialCode?: string;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = false, onExpressChange }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = false, onExpressChange, materialCode }) => {
     return (
         <div className="glass-card result-box">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -73,6 +74,11 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = fals
                 <span>合計金額</span>
                 <span>¥{result.totalFee.toLocaleString()}</span>
             </div>
+            {materialCode === 'M6' && (
+                <div style={{ textAlign: 'right', marginTop: '0.2rem', color: '#ffb74d', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                    ※メーカーチャージ、3,000円
+                </div>
+            )}
             <div style={{ textAlign: 'center', marginTop: '1rem', opacity: 0.8, fontSize: '0.9rem' }}>
                 ※表示価格は税抜です
             </div>

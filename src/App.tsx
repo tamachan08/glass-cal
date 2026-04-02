@@ -203,6 +203,7 @@ function App() {
         result={result}
         isExpress={isExpress}
         onExpressChange={setIsExpress}
+        materialCode={materialCode}
       />
 
       <ShapeSelector
