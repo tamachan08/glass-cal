@@ -102,7 +102,11 @@ export const calculateEdgeFee = (
 
         // Curved Chamfer Surcharge
         if (curvedShapes.includes(shape) && config.type === 'chamfer') {
-            sMult *= 2.0;
+            if (config.chamferWidth === '12' || config.chamferWidth === '18') {
+                sMult *= 1.5;
+            } else {
+                sMult *= 2.0;
+            }
         }
 
         return Math.ceil(lengthMeters * unitPriceVal * finishMultiplier * sMult);
@@ -142,7 +146,11 @@ export const calculateEdgeFee = (
 
         // Curved Chamfer Surcharge
         if (curvedShapes.includes(shape) && config.type === 'chamfer') {
-            sMult *= 2.0;
+            if (config.chamferWidth === '12' || config.chamferWidth === '18') {
+                sMult *= 1.5;
+            } else {
+                sMult *= 2.0;
+            }
         }
 
         return Math.ceil(lengthMeters * uPrice * finishMultiplier * sMult);
