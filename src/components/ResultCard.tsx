@@ -89,27 +89,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({
                 ※表示価格は税抜です
             </div>
 
-            {/* Print/PDF Export Option */}
-            <div className="no-print" style={{ display: 'flex', marginTop: '1.5rem' }}>
-                <button
-                    onClick={() => window.print()}
-                    style={{
-                        width: '100%',
-                        padding: '0.8rem 1.5rem',
-                        fontSize: '1rem',
-                        fontWeight: 'bold',
-                        borderRadius: '10px',
-                        border: '1px solid rgba(255, 255, 255, 0.4)',
-                        cursor: 'pointer',
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        color: 'white',
-                        transition: 'all 0.2s',
-                    }}
-                    title="価格交渉用の明細シートをPDF保存/印刷します"
-                >
-                    🖨️ 交渉シート印刷 (PDF)
-                </button>
-            </div>
+
         </div>
     );
 };
