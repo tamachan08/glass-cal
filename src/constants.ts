@@ -133,11 +133,11 @@ export const OPTION_PRICES = {
 };
 
 export const FILM_PRICES: Record<import('./types').FilmType, number> = {
-    'shatterproof': 4200,
-    'tn200': 8500,
+    'shatterproof': 4500,
+    'tn200': 9100,
     'glasstect': 20000,
     'foglas': 6500,
-    'milky': 6500,
+    'milky': 7500,
     'iromizu': 15000
 };
 

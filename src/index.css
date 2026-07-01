@@ -221,3 +221,43 @@ select:focus {
     grid-template-columns: 1fr;
   }
 }
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+  }
+  #root {
+    max-width: 100% !important;
+  }
+  .app-container > *:not(.result-box),
+  .app-container header,
+  .app-container footer,
+  button,
+  .no-print {
+    display: none !important;
+  }
+  .result-box {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    width: 100% !important;
+  }
+  .result-row {
+    color: black !important;
+    border-bottom: 1px solid #ccc !important;
+    padding: 10px 0 !important;
+  }
+  .result-row.total {
+    color: #111827 !important;
+    font-size: 2rem !important;
+    border-top: 3px double #111827 !important;
+    border-bottom: 3px double #111827 !important;
+    margin-top: 1.5rem !important;
+    padding: 15px 0 !important;
+  }
+}

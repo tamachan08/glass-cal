@@ -8,13 +8,19 @@ interface ResultCardProps {
     materialCode?: string;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = false, onExpressChange, materialCode }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({ 
+    result, 
+    isExpress = false, 
+    onExpressChange, 
+    materialCode 
+}) => {
     return (
         <div className="glass-card result-box">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h2 style={{ margin: 0 }}>計算結果</h2>
                 {onExpressChange && (
                     <button
+                        className="no-print"
                         onClick={() => onExpressChange(!isExpress)}
                         style={{
                             padding: '0.4rem 0.8rem',
@@ -82,6 +88,30 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isExpress = fals
             <div style={{ textAlign: 'center', marginTop: '1rem', opacity: 0.8, fontSize: '0.9rem' }}>
                 ※表示価格は税抜です
             </div>
+
+            {/* Print/PDF Export Option */}
+            <div className="no-print" style={{ display: 'flex', marginTop: '1.5rem' }}>
+                <button
+                    onClick={() => window.print()}
+                    style={{
+                        width: '100%',
+                        padding: '0.8rem 1.5rem',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        borderRadius: '10px',
+                        border: '1px solid rgba(255, 255, 255, 0.4)',
+                        cursor: 'pointer',
+                        background: 'rgba(255, 255, 255, 0.15)',
+                        color: 'white',
+                        transition: 'all 0.2s',
+                    }}
+                    title="価格交渉用の明細シートをPDF保存/印刷します"
+                >
+                    🖨️ 交渉シート印刷 (PDF)
+                </button>
+            </div>
         </div>
     );
 };
+
+
