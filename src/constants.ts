@@ -138,7 +138,11 @@ export const FILM_PRICES: Record<import('./types').FilmType, number> = {
     'glasstect': 20000,
     'foglas': 6500,
     'milky': 7500,
-    'iromizu': 15000
+    'iromizu': 15000,
+    'silver18': 7500,
+    'smoke35': 7500,
+    'gf1111': 8000,
+    'gf1828': 11000
 };
 
 export const FILM_LABELS: Record<import('./types').FilmType, string> = {
@@ -147,7 +151,11 @@ export const FILM_LABELS: Record<import('./types').FilmType, string> = {
     'glasstect': 'グラステクト',
     'foglas': 'フォグラスC-16',
     'milky': 'ミルキーミルキー',
-    'iromizu': 'イロミズ'
+    'iromizu': 'イロミズ',
+    'silver18': '3M シルバー18',
+    'smoke35': '3M スモーク35',
+    'gf1111': 'サンゲツ GF-1111',
+    'gf1828': 'サンゲツ GF-1828'
 };
 
 export const FILM_OPTION_PRICES = {

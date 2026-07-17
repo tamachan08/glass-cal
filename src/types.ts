@@ -74,7 +74,7 @@ export interface ComplexProcessingOptions {
   square_hole: ComplexItem[]; // Square Hole (Ana)
 }
 
-export type FilmType = 'shatterproof' | 'tn200' | 'glasstect' | 'foglas' | 'milky' | 'iromizu';
+export type FilmType = 'shatterproof' | 'tn200' | 'glasstect' | 'foglas' | 'milky' | 'iromizu' | 'silver18' | 'smoke35' | 'gf1111' | 'gf1828';
 
 export interface ProcessingOptions {
   rProcessing: RProcessingOptions;
