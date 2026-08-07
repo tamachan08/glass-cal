@@ -142,7 +142,8 @@ export const FILM_PRICES: Record<import('./types').FilmType, number> = {
     'silver18': 7500,
     'smoke35': 7500,
     'gf1111': 8000,
-    'gf1828': 11000
+    'gf1828': 11000,
+    'sh2emes': 7850
 };
 
 export const FILM_LABELS: Record<import('./types').FilmType, string> = {
@@ -155,7 +156,8 @@ export const FILM_LABELS: Record<import('./types').FilmType, string> = {
     'silver18': '3M シルバー18',
     'smoke35': '3M スモーク35',
     'gf1111': 'サンゲツ GF-1111',
-    'gf1828': 'サンゲツ GF-1828'
+    'gf1828': 'サンゲツ GF-1828',
+    'sh2emes': '3M SH2EMESエッセン'
 };
 
 export const FILM_OPTION_PRICES = {
