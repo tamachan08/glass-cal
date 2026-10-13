@@ -135,7 +135,6 @@ export const OPTION_PRICES = {
 export const FILM_PRICES: Record<import('./types').FilmType, number> = {
     'shatterproof': 4500,
     'tn200': 9100,
-    'glasstect': 20000,
     'foglas': 6500,
     'milky': 7500,
     'iromizu': 15000,
@@ -149,7 +148,6 @@ export const FILM_PRICES: Record<import('./types').FilmType, number> = {
 export const FILM_LABELS: Record<import('./types').FilmType, string> = {
     'shatterproof': '飛散防止フィルム',
     'tn200': 'TN-200',
-    'glasstect': 'グラステクト',
     'foglas': 'フォグラスC-16',
     'milky': 'ミルキーミルキー',
     'iromizu': 'イロミズ',
