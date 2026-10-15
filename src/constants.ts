@@ -49,7 +49,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "GL_GY": { price: 16200, thick: 5, label: 'グレーガラス(高単価) 5mm (GL_GY)' },
 
     "CM_DD": { price: 20300, thick: 5, label: 'ディープダークミラー 5mm (CM_DD)' },
-    "LACO": { price: 31000, thick: 5, label: 'ラコベル 5mm (LACO)' },
+    "LACO_CB": { price: 22000, thick: 5, label: 'ラコベル クラシックブラック 5mm (LACO_CB)' },
+    "LACO_PW": { price: 25000, thick: 5, label: 'ラコベル ピュアホワイト 5mm (LACO_PW)' },
     "CM_REJ": { price: 29700, thick: 5, label: 'レジャンヌミラー 5mm (CM_REJ)' }, // Updated
     "CM_CIN": { price: 29700, thick: 5, label: 'シンディエラM 5mm (CM_CIN)' },
     "CM_BLA": { price: 29700, thick: 5, label: 'ブランネジュM 5mm (CM_BLA)' },
