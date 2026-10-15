@@ -19,8 +19,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "MS5": { price: 18200, thick: 5, label: '高透過ミラー 5mm (MS5)' },
 
     // --- 型・スリガラス ---
-    "F4K": { price: 2700, thick: 4, label: '型ガラス(カスミ) 4mm (F4K)' },
-    "F6K": { price: 4700, thick: 6, label: '型ガラス(カスミ) 6mm (F6K)' },
+    "F4K": { price: 4800, thick: 4, label: '型ガラス(カスミ) 4mm (F4K)' },
+    "F6K": { price: 7500, thick: 6, label: '型ガラス(カスミ) 6mm (F6K)' },
     "G3": { price: 4700, thick: 3, label: 'スリガラス 3mm (G3)' },
     "G5": { price: 6800, thick: 5, label: 'スリガラス 5mm (G5)' },
 
