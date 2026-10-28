@@ -35,7 +35,7 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "FTA6": { price: 16900, thick: 6, label: 'タペガラス 6mm (FTA6)' },
     "FTA8": { price: 22300, thick: 8, label: 'タペガラス 8mm (FTA8)' },
     "FTA10": { price: 37800, thick: 10, label: 'タペガラス 10mm (FTA10)' },
-    "FTAM5": { price: 27000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
+    "FTAM5": { price: 40000, thick: 5, label: 'タペミラー 5mm (FTAM5)' },
 
     // --- カラー・デザイン・特殊 ---
     "CM_BZ": { price: 7500, thick: 5, label: 'ブロンズミラー 5mm (CM_BZ)' },
