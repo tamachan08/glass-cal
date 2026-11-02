@@ -44,7 +44,8 @@ export const MATERIAL_DB: Record<string, { price: number; thick: GlassThickness;
     "CM_SP": { price: 13500, thick: 5, label: 'セピアブラウンミラー 5mm (CM_SP)' },
     "CM_GD": { price: 13500, thick: 5, label: 'ゴールドイエローミラー 5mm (CM_GD)' },
 
-    "GL_BZ": { price: 4700, thick: 5, label: 'ブロンズガラス 5mm (GL_BZ)' },
+    "GL_BZ": { price: 5400, thick: 5, label: 'ブロンズガラス(熱線吸収) 5mm (GL_BZ)' },
+    "GL_GRY": { price: 5400, thick: 5, label: 'グレーガラス(熱線吸収) 5mm (GL_GRY)' },
     "GL_DGY": { price: 16200, thick: 5, label: 'ダークグレーガラス 5mm (GL_DGY)' },
     "GL_GY": { price: 16200, thick: 5, label: 'グレーガラス(高単価) 5mm (GL_GY)' },
 
