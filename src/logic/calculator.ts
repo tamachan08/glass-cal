@@ -89,7 +89,12 @@ export const calculateEdgeFee = (
         } else if (config.type === 'chamfer') {
             if (!config.chamferWidth) return 0;
             const prices = CHAMFER_PRICES[config.chamferWidth];
-            unitPriceVal = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+            const isThickGlass = dimensions.thickness === 8 || dimensions.thickness === 10 || dimensions.thickness === 12;
+            if (isThickGlass && config.polishChamferEdge) {
+                unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness] + prices.polished;
+            } else {
+                unitPriceVal = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+            }
         } else if (config.type === 'suriawase') {
             // Suriawase = 3x Flat Polish
             unitPriceVal = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
@@ -135,7 +140,12 @@ export const calculateEdgeFee = (
         } else if (config.type === 'chamfer') {
             if (!config.chamferWidth) return 0;
             const prices = CHAMFER_PRICES[config.chamferWidth];
-            uPrice = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+            const isThickGlass = dimensions.thickness === 8 || dimensions.thickness === 10 || dimensions.thickness === 12;
+            if (isThickGlass && config.polishChamferEdge) {
+                uPrice = FLAT_POLISH_PRICES[dimensions.thickness] + prices.polished;
+            } else {
+                uPrice = config.polishChamferEdge ? prices.polished : (prices.unpolished ?? prices.polished);
+            }
         } else if (config.type === 'suriawase') {
             uPrice = FLAT_POLISH_PRICES[dimensions.thickness] * 3;
         } else if (config.type === 'kamaboko') {
