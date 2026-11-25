@@ -1,6 +1,6 @@
 import React from 'react';
-import type { ProcessingOptions } from '../types';
-import { FILM_LABELS } from '../constants';
+import type { FilmType, ProcessingOptions } from '../types';
+import { FILM_LABELS, FILM_PRICES } from '../constants';
 
 interface OptionInputsProps {
     options: ProcessingOptions;
@@ -124,7 +124,9 @@ export const OptionInputs: React.FC<OptionInputsProps> = ({ options, onChange })
                         >
                             <option value="">なし</option>
                             {Object.entries(FILM_LABELS).map(([key, label]) => (
-                                <option key={key} value={key}>{label}</option>
+                                <option key={key} value={key}>
+                                    {label} ({FILM_PRICES[key as FilmType].toLocaleString()}円/㎡)
+                                </option>
                             ))}
                         </select>
                     </div>
